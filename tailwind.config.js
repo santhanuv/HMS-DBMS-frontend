@@ -7,6 +7,7 @@ module.exports = {
       secondBlue: "#71C8DC",
       white: "#fff",
       lightGrey: "#F1F3F3",
+      disabledGrey: "#9D9D9D",
     },
     borderRadius: {
       "30p": "30px",

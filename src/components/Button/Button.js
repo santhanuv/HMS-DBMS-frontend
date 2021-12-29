@@ -12,7 +12,7 @@ function Button({
   isCustom,
 }) {
   return (
-    <div ClassName={wrapperClassNames}>
+    <div className={wrapperClassNames}>
       <StyledButton
         className={classNames}
         disabled={disabled}
