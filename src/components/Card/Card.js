@@ -1,10 +1,12 @@
 import StyledCard from "./Styles";
 import React from "react";
 
-function Card({ classNames, children }) {
+function Card({ classNames, children, hasBr = true }) {
   return (
     <>
-      <StyledCard className={`${classNames}`}>{children}</StyledCard>
+      <StyledCard hasBr={hasBr} className={`${classNames}`}>
+        {children}
+      </StyledCard>
     </>
   );
 }
