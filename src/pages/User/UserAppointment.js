@@ -84,7 +84,9 @@ function UserAppointment() {
 
   const handleExitCard = (e) => {
     if (
-      (addCardRef && !addCardRef.current.contains(e.target)) ||
+      (addCardRef &&
+        addCardRef.current &&
+        !addCardRef.current.contains(e.target)) ||
       e.currentTarget.id === "addCardClose"
     )
       setAddCardVisible(false);

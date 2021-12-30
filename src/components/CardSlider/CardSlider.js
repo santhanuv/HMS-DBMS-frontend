@@ -26,7 +26,7 @@ function CardSlider({ children, classNames, cap = 1, varient = 0 }) {
   };
 
   return (
-    <Card classNames="bg-white">
+    <Card classNames="bg-white w-full h-full">
       <div
         className={`flex ${
           varient === 0 ? "flex-row" : "flex-col"
@@ -46,8 +46,7 @@ function CardSlider({ children, classNames, cap = 1, varient = 0 }) {
           className={`w-full h-full p-5 flex justify-between 
         ${varient === 0 ? "flex-row" : "flex-col"} gap-3`}
         >
-          {console.log(cardIndex, cardIndex + cardCap) ||
-            children.slice(cardIndex, cardIndex + cardCap)}
+          {children.slice(cardIndex, cardIndex + cardCap)}
         </div>
         <div>
           <Button

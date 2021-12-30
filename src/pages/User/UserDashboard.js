@@ -69,66 +69,55 @@ function UserDashboard() {
     { text: "Rent", value: room.rent },
   ];
 
-  const reportCardClickHandler = (e) => console.log(e.id);
+  const reportCardClickHandler = (e) => console.log(e.currentTarget.id);
 
   return (
     <UserWrapper>
       <MainHeading classNames="text-primaryGrey mb-5">Dashboard</MainHeading>
-      {/* Content Section */}
-      <div className="grid grid-cols-2 gap-10 h-4/5">
-        {/* Current Medication Card*/}
-
-        <div className="">
-          <h1 className="font-montserrat font-bold text-2xl my-5">
+      <div className="grid grid-cols-2 gap-[25px]">
+        <div className="aspect-square width-[50px]">
+          <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Medications
           </h1>
-          <div className="h-4/5">
-            <EmptyCard>No Medications</EmptyCard>
-          </div>
+          <EmptyCard>No Medications</EmptyCard>
         </div>
-
-        <div className="">
-          <h1 className="font-montserrat font-bold text-2xl my-5">Reports</h1>
-          <div className="h-4/5">
-            <CardSlider cap={3} varient={1}>
-              {reportList.map((report) => (
-                <CardButton
-                  text={report.text}
-                  icon={<BsFileMedicalFill className="text-3xl" />}
-                  btnIcon={<BsFileArrowDownFill className="text-3xl" />}
-                  onClick={reportCardClickHandler}
-                  id={report.id}
-                />
-              ))}
-            </CardSlider>
-          </div>
+        <div className="aspect-square width-[50px]">
+          <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
+            Reports
+          </h1>
+          <CardSlider cap={3} varient={1}>
+            {reportList.map((report) => (
+              <CardButton
+                text={report.text}
+                icon={<BsFileMedicalFill className="text-5xl" />}
+                btnIcon={<BsFileArrowDownFill className="text-5xl" />}
+                onClick={reportCardClickHandler}
+                id={report.id}
+              />
+            ))}
+          </CardSlider>
         </div>
-
-        <div className="">
-          <h1 className="font-montserrat font-bold text-2xl my-5">
+        <div className="aspect-square width-[50px]">
+          <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Recent Bills
           </h1>
-          <div className="h-4/5">
-            <CardSlider>
-              {billList.map((bill) => {
-                const billInfoList = createBillInfoList(bill);
-                return <InfoCard infoList={billInfoList} />;
-              })}
-            </CardSlider>
-          </div>
+          <CardSlider varient={1}>
+            {billList.map((bill) => {
+              const billInfoList = createBillInfoList(bill);
+              return <InfoCard infoList={billInfoList} />;
+            })}
+          </CardSlider>
         </div>
-        <div>
-          <h1 className="font-montserrat font-bold text-2xl my-5">
+        <div className="aspect-square width-[50px]">
+          <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Current Rooms
           </h1>
-          <div className="h-4/5">
-            <CardSlider>
-              {roomList.map((room) => {
-                const roomInfoList = createRoomInfoList(room);
-                return <InfoCard infoList={roomInfoList} />;
-              })}
-            </CardSlider>
-          </div>
+          <CardSlider varient={1}>
+            {roomList.map((room) => {
+              const roomInfoList = createRoomInfoList(room);
+              return <InfoCard infoList={roomInfoList} />;
+            })}
+          </CardSlider>
         </div>
       </div>
     </UserWrapper>
