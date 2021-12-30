@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "../../Card";
+import Card from "../Card";
 import { Wrapper, HeadText, HeadTextValue, Text, TextValue } from "./Styles";
 
 function InfoCard({ infoList, hasBr = true, classNames }) {
