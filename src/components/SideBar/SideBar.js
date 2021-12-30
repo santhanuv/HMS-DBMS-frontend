@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaBars, FaAngleLeft } from "react-icons/fa";
 import Button from "../Button";
 
@@ -8,13 +8,16 @@ import Button from "../Button";
  *  items:    The items to display on the sidebar
  *  selected: Which item needs to be selected
  *  selector: The function that changes selected when the item is clicked
+ *  onChange: the function to call when the open state of the sidebar changes
  *
  */
 
-function SideBar({ items, selected, selector, maxWidth, minWidth }) {
+function SideBar({ items, selected, selector, onChange }) {
   const notSlectedBtnClasses = "text-primaryGrey";
 
   const [openState, setOpenState] = useState(true);
+
+  useEffect(() => onChange(openState), [openState]);
 
   const toggleHandle = (e) => {
     if (e.currentTarget.id === "close_btn" && openState) setOpenState(false);
