@@ -5,8 +5,10 @@ import Button from "../Button";
 import StyledCardButton from "./Styles";
 import Card from "../Card";
 
-function CardSlider({ children, classNames }) {
+function CardSlider({ children, classNames, cap = 1 }) {
   const [cardIndex, setCardIndex] = useState(0);
+
+  const cardCap = parseInt(cap);
 
   const handleLeftClick = (e) => {
     if (cardIndex === 0) return;
@@ -14,7 +16,7 @@ function CardSlider({ children, classNames }) {
   };
 
   const handleRightClick = (e) => {
-    if (cardIndex < children.length - 1)
+    if (cardIndex + cardCap < children.length)
       setCardIndex((prevCardIndex) => prevCardIndex + 1);
   };
 
@@ -33,7 +35,10 @@ function CardSlider({ children, classNames }) {
         }`}
           isCustom={true}
         />
-        <div className="w-full h-full p-5">{children[cardIndex]}</div>
+        <div className="w-full h-full p-5 flex justify-between">
+          {console.log(cardIndex, cardIndex + cardCap) ||
+            children.slice(cardIndex, cardIndex + cardCap)}
+        </div>
         <div>
           <Button
             id="btn_right"
@@ -41,7 +46,7 @@ function CardSlider({ children, classNames }) {
             onClick={handleRightClick}
             classNames={`text-3xl font-montserrat hover:bg-lightGrey 
             rounded-[100px] p-3 ${
-              cardIndex >= children.length - 1
+              cardIndex + cardCap >= children.length
                 ? "text-disabledGrey"
                 : "text-primaryGrey"
             }`}

@@ -8,6 +8,10 @@ module.exports = {
       white: "#fff",
       lightGrey: "#F1F3F3",
       disabledGrey: "#9D9D9D",
+      badgeSuccess: "#66bb6a",
+      badgePending: "#FA8F61",
+      badgeTextSuccess: "#6E9F78",
+      badgeTextPending: "#DDB990",
     },
     borderRadius: {
       "30p": "30px",
