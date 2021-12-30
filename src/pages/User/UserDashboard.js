@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import SideBar from "../../components/SideBar";
-
-import Card from "../../components/Card";
+import { BsFileMedicalFill, BsFileArrowDownFill } from "react-icons/bs";
 import MainHeading from "../../components/MainHeading";
-import ReportCard from "../../components/UserComponents/ReportCard";
+import CardButton from "../../components/CardButton";
 import CardSlider from "../../components/CardSlider";
-import InfoCard from "../../components/UserComponents/InfoCard";
+import InfoCard from "../../components/InfoCard";
 import EmptyCard from "../../components/EmptyCard";
 import UserWrapper from "./UserWrapper";
 
@@ -26,6 +24,15 @@ function UserDashboard() {
       rooms: 1300,
       paidOn: "17/03/2020",
     },
+  ];
+
+  // Remove this
+  const reportList = [
+    { text: "Report 1", id: "rlink1" },
+    { text: "Report 2", id: "rlink2" },
+    { text: "Report 3", id: "rlink3" },
+    { text: "Report 4", id: "rlink3" },
+    { text: "Report 5", id: "rlink3" },
   ];
 
   // Remove This
@@ -62,6 +69,8 @@ function UserDashboard() {
     { text: "Rent", value: room.rent },
   ];
 
+  const reportCardClickHandler = (e) => console.log(e.id);
+
   return (
     <UserWrapper>
       <MainHeading classNames="text-primaryGrey mb-5">Dashboard</MainHeading>
@@ -81,17 +90,17 @@ function UserDashboard() {
         <div className="">
           <h1 className="font-montserrat font-bold text-2xl my-5">Reports</h1>
           <div className="h-4/5">
-            <Card>
-              <ReportCard
-                reportList={[
-                  { text: "Report 1", link: "rlink1" },
-                  { text: "Report 2", link: "rlink2" },
-                  { text: "Report 3", link: "rlink3" },
-                  { text: "Report 4", link: "rlink3" },
-                  { text: "Report 5", link: "rlink3" },
-                ]}
-              />
-            </Card>
+            <CardSlider cap={3} varient={1}>
+              {reportList.map((report) => (
+                <CardButton
+                  text={report.text}
+                  icon={<BsFileMedicalFill className="text-3xl" />}
+                  btnIcon={<BsFileArrowDownFill className="text-3xl" />}
+                  onClick={reportCardClickHandler}
+                  id={report.id}
+                />
+              ))}
+            </CardSlider>
           </div>
         </div>
 

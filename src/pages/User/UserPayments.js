@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../components/Button";
 import CardSlider from "../../components/CardSlider";
 import MainHeading from "../../components/MainHeading";
-import InfoCard from "../../components/UserComponents/InfoCard";
+import InfoCard from "../../components/InfoCard";
 import UserWrapper from "./UserWrapper";
 import Card from "../../components/Card";
 import Badge from "../../components/Badge";
