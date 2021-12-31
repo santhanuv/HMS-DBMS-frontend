@@ -2,13 +2,13 @@ import { StyledForm } from "./Style";
 
 import React from "react";
 
-function Form({ formInputs, classNames }) {
+function Form({ formInputs, classNames, ref }) {
   return (
-    <StyledForm className={classNames}>
+    <>
       {formInputs.map((formInput) => (
         <>{formInput}</>
       ))}
-    </StyledForm>
+    </>
   );
 }
 

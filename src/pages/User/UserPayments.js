@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import CardSlider from "../../components/CardSlider";
 import MainHeading from "../../components/MainHeading";
 import InfoCard from "../../components/InfoCard";
-import UserWrapper from "./UserWrapper";
+import Wrapper from "../../components/Wrapper/Wrapper";
 import Card from "../../components/Card";
 import Badge from "../../components/Badge";
 import Table from "../../components/Table";
@@ -121,7 +121,7 @@ function UserPayments() {
   ];
 
   return (
-    <UserWrapper>
+    <Wrapper>
       <MainHeading classNames="text-primaryGrey mb-5">Payments</MainHeading>
 
       <div className="mt-[40px]">
@@ -155,7 +155,7 @@ function UserPayments() {
           <Table columns={columns} data={paymentHistory} />
         </Card>
       </div>
-    </UserWrapper>
+    </Wrapper>
   );
 }
 
