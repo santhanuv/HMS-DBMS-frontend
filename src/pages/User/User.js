@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import SideBar from "../../components/SideBar";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaCreditCard, FaRegCalendarPlus } from "react-icons/fa";
 import UserDashboard from "./UserDashboard";
-import MainHeading from "../../components/MainHeading";
 import UserAppointment from "./UserAppointment";
 import UserPayments from "./UserPayments";
 

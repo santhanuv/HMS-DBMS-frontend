@@ -15,9 +15,9 @@ import Button from "../Button";
 function SideBar({ items, selected, selector, onChange }) {
   const notSlectedBtnClasses = "text-primaryGrey";
 
-  const [openState, setOpenState] = useState(true);
+  const [openState, setOpenState] = useState(false);
 
-  useEffect(() => onChange(openState), [openState]);
+  useEffect(() => onChange && onChange(openState), [openState]);
 
   const toggleHandle = (e) => {
     if (e.currentTarget.id === "close_btn" && openState) setOpenState(false);

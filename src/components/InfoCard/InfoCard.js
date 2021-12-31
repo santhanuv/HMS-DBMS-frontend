@@ -4,8 +4,11 @@ import { Wrapper, HeadText, HeadTextValue, Text, TextValue } from "./Styles";
 
 function InfoCard({ infoList, hasBr = true, classNames }) {
   return (
-    <Card hasBr={hasBr} classNames={`w-full h-full py-3 px-6 ${classNames}`}>
-      <Wrapper className="gap-x-14 gap-y-4">
+    <Card
+      hasBr={hasBr}
+      classNames={`w-full h-full py-3 px-6 flex flex-col ${classNames}`}
+    >
+      <Wrapper className="gap-x-14 gap-y-4 w-full h-full justify-center items-center">
         {infoList.map((info) => {
           return (
             <>

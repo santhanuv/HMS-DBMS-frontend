@@ -10,7 +10,14 @@ import Button from "../Button";
 import StyledCardButton from "./Styles";
 import Card from "../Card";
 
-function CardSlider({ children, classNames, cap = 1, varient = 0 }) {
+function CardSlider({
+  children = [],
+  classNames,
+  cap = 1,
+  varient = 0,
+  isDark = true,
+  isJustifyBetween = true,
+}) {
   const [cardIndex, setCardIndex] = useState(0);
 
   const cardCap = parseInt(cap);
@@ -36,15 +43,23 @@ function CardSlider({ children, classNames, cap = 1, varient = 0 }) {
           icon={varient === 0 ? <FaAngleLeft /> : <FaAngleUp />}
           id="btn_left"
           onClick={handleLeftClick}
-          classNames={`text-3xl font-montserrat hover:bg-lightGrey 
+          classNames={`text-3xl font-montserrat ${
+            isDark ? "hover:bg-lightGrey" : "hover:bg-primaryGrey"
+          } 
         rounded-[100px] p-3 ${
-          cardIndex === 0 ? "text-disabledGrey" : "text-primaryGrey"
+          cardIndex === 0
+            ? "text-disabledGrey"
+            : isDark
+            ? "text-primaryGrey"
+            : "text-white"
         }`}
           isCustom={true}
         />
         <div
-          className={`w-full h-full p-5 flex justify-between 
-        ${varient === 0 ? "flex-row" : "flex-col"} gap-3`}
+          className={`w-full h-full p-5 flex ${
+            isJustifyBetween ? "justify-between gap-3" : "gap-[30px]"
+          } 
+        ${varient === 0 ? "flex-row" : "flex-col"}`}
         >
           {children.slice(cardIndex, cardIndex + cardCap)}
         </div>
@@ -53,11 +68,15 @@ function CardSlider({ children, classNames, cap = 1, varient = 0 }) {
             id="btn_right"
             icon={varient === 0 ? <FaAngleRight /> : <FaAngleDown />}
             onClick={handleRightClick}
-            classNames={`text-3xl font-montserrat hover:bg-lightGrey 
+            classNames={`text-3xl font-montserrat ${
+              isDark ? "hover:bg-lightGrey" : "hover:bg-primaryGrey"
+            }  
             rounded-[100px] p-3 ${
               cardIndex + cardCap >= children.length
                 ? "text-disabledGrey"
-                : "text-primaryGrey"
+                : isDark
+                ? "text-primaryGrey"
+                : "text-white"
             }`}
             isCustom={true}
           />

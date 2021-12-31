@@ -5,18 +5,9 @@ import Table from "../../components/Table";
 import { FaSearch, FaEdit, FaWindowClose } from "react-icons/fa";
 import Card from "../../components/Card";
 import CheckBox from "../../components/CheckBox";
-import UserWrapper from "./UserWrapper";
+import Wrapper from "../../components/Wrapper/Wrapper";
 import SelectInput from "../../components/SelectInput";
 import Form from "../../components/Form";
-
-const tableHead = [
-  "No",
-  "Doctor",
-  "Date",
-  "Time",
-  "Price",
-  <Button icon={<FaSearch />} id="search_btn" />,
-];
 
 const docList = ["Doctor", "Doctor1", "Doctor2", "Doctor3"];
 
@@ -32,6 +23,7 @@ const formInputs = [
 
 const tableBody = [];
 
+// Creates mock data
 const remove = () => {
   const list = [];
   for (let i = 0; i < 10; i++) {
@@ -136,7 +128,7 @@ function UserAppointment() {
   ]);
 
   return (
-    <UserWrapper className="relative">
+    <Wrapper className="relative">
       <MainHeading classNames="text-primaryGrey mb-[50px]">
         APPOINTMENT
       </MainHeading>
@@ -175,7 +167,7 @@ function UserAppointment() {
           </Card>
         </div>
       )}
-    </UserWrapper>
+    </Wrapper>
   );
 }
 

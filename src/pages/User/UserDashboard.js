@@ -5,7 +5,7 @@ import CardButton from "../../components/CardButton";
 import CardSlider from "../../components/CardSlider";
 import InfoCard from "../../components/InfoCard";
 import EmptyCard from "../../components/EmptyCard";
-import UserWrapper from "./UserWrapper";
+import Wrapper from "../../components/Wrapper/Wrapper";
 
 function UserDashboard() {
   // Remove This
@@ -72,7 +72,7 @@ function UserDashboard() {
   const reportCardClickHandler = (e) => console.log(e.currentTarget.id);
 
   return (
-    <UserWrapper>
+    <Wrapper>
       <MainHeading classNames="text-primaryGrey mb-5">Dashboard</MainHeading>
       <div className="grid grid-cols-2 gap-[25px]">
         <div className="aspect-square width-[50px]">
@@ -120,7 +120,7 @@ function UserDashboard() {
           </CardSlider>
         </div>
       </div>
-    </UserWrapper>
+    </Wrapper>
   );
 }
 
