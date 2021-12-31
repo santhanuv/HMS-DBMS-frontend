@@ -5,6 +5,7 @@ import { FaCreditCard, FaRegCalendarPlus } from "react-icons/fa";
 import UserDashboard from "./UserDashboard";
 import UserAppointment from "./UserAppointment";
 import UserPayments from "./UserPayments";
+import Notification from "../../components/Notification";
 
 function User() {
   const [selected, setSelected] = useState("0");
@@ -62,8 +63,11 @@ function User() {
       <div
         className={`${sideBarOpen ? "ml-[380px]" : "ml-[150px]"}   ${
           selected === "0" ? "w-3/5" : "w-9/12"
-        }`}
+        } relative`}
       >
+        <span className="absolute z-10 top-[50px] right-[0px]">
+          <Notification />
+        </span>
         {contentSelector(selected)}
       </div>
     </div>

@@ -4,6 +4,7 @@ import { BsFillGridFill } from "react-icons/bs";
 import { FaRegCalendarPlus } from "react-icons/fa";
 import DoctorDashboard from "./DoctorDashboard";
 import DoctorAppointments from "./DoctorAppointments";
+import Notification from "../../components/Notification";
 
 const contentSelector = (selected) => {
   switch (selected) {
@@ -51,10 +52,13 @@ function Doctor() {
         />
       </div>
       <div
-        className={`${sideBarOpen ? "ml-[380px]" : "ml-[150px]"}   ${
-          selected === "0" ? "w-3/5" : "w-9/12"
-        }`}
+        className={`${
+          sideBarOpen ? "ml-[380px]" : "ml-[150px]"
+        }   w-9/12 relative`}
       >
+        <span className="absolute z-10 top-[50px] right-[0px]">
+          <Notification />
+        </span>
         {contentSelector(selected)}
       </div>
     </div>
