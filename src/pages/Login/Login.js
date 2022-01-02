@@ -72,7 +72,9 @@ function Login() {
               btnInfo={selectorBtnInfo}
               onClick={handleSlectorClick}
             />
-            <Form formInputs={formInputs} classNames="mt-20" />
+            <form className="mt-[80px]">
+              <Form formInputs={formInputs} classNames="mt-20" />
+            </form>
           </Card>
         </div>
       </div>

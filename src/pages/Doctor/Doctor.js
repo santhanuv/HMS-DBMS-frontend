@@ -5,6 +5,7 @@ import { FaRegCalendarPlus } from "react-icons/fa";
 import DoctorDashboard from "./DoctorDashboard";
 import DoctorAppointments from "./DoctorAppointments";
 import Notification from "../../components/Notification";
+import Avatar from "../../components/Avatar";
 
 const contentSelector = (selected) => {
   switch (selected) {
@@ -56,7 +57,8 @@ function Doctor() {
           sideBarOpen ? "ml-[380px]" : "ml-[150px]"
         }   w-9/12 relative`}
       >
-        <span className="absolute z-10 top-[50px] right-[0px]">
+        <span className="absolute z-10 top-[50px] right-[0px] flex gap-[10px]">
+          <Avatar name="Santhanu" />
           <Notification />
         </span>
         {contentSelector(selected)}
