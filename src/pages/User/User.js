@@ -6,6 +6,7 @@ import UserDashboard from "./UserDashboard";
 import UserAppointment from "./UserAppointment";
 import UserPayments from "./UserPayments";
 import Notification from "../../components/Notification";
+import Avatar from "../../components/Avatar";
 
 function User() {
   const [selected, setSelected] = useState("0");
@@ -65,7 +66,8 @@ function User() {
           selected === "0" ? "w-3/5" : "w-9/12"
         } relative`}
       >
-        <span className="absolute z-10 top-[50px] right-[0px]">
+        <span className="absolute z-10 top-[50px] right-[0px] flex gap-[10px]">
+          <Avatar name="Santhanu" />
           <Notification />
         </span>
         {contentSelector(selected)}
