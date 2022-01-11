@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { takeWeeks, takeMonths, takeYears } from "../../utils/dates";
+import { IoCalendarClear } from "react-icons/io5";
 import {
   WeekWrapper,
   WeekNameWrapper,
@@ -8,52 +9,17 @@ import {
   SelectorWrapper,
   Selector,
 } from "./Styles";
-import { format, isSameDay, isSameMonth, getMonth, getYear } from "date-fns";
+import {
+  format,
+  isSameDay,
+  isSameMonth,
+  getMonth,
+  getYear,
+  startOfDay,
+} from "date-fns";
 import Card from "../Card";
 import Select from "../Select/Select";
-
-const SelectorHeader = ({ month }) => {
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const getSelectedMonth = (month) => {
-    return getMonth(month[1][0]);
-  };
-
-  const getYearList = (selectedYear, length = 21) => {
-    const pivot = Math.floor(length / 2);
-    console.log(pivot);
-    const years = [...Array(length)].map(
-      (_, index) => selectedYear - pivot + index
-    );
-    const seleted = years.indexOf(selectedYear);
-    return { yearList: years, selected: seleted };
-  };
-
-  const currentYear = getYear(month[1][0]);
-  const { yearList, selected } = getYearList(currentYear);
-
-  return (
-    <SelectorWrapper>
-      <div>
-        <Select options={monthNames} initVal={getSelectedMonth(month)} />
-      </div>
-      <Select options={yearList} initVal={selected} />
-    </SelectorWrapper>
-  );
-};
+import { useCallback } from "react/cjs/react.development";
 
 const WeekHeader = () => {
   const weekNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -97,22 +63,74 @@ const Weeks = ({ month }) => {
   );
 };
 
-const handleClick = () => {
-  const tw = takeWeeks();
-  const ty = takeYears();
-  const tm = takeMonths();
-
-  console.log(ty());
-  console.log(ty());
-};
-
 function DatePicker() {
-  const tm = takeMonths();
-  let month = tm();
+  const getYearList = (selectedYear, length = 21) => {
+    const pivot = Math.floor(length / 2);
+    const years = [...Array(length)].map(
+      (_, index) => selectedYear - pivot + index
+    );
+    const seleted = years.indexOf(selectedYear);
+    return { yearList: years, selected: seleted };
+  };
+
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const yearListObj = getYearList(getYear(startOfDay(new Date())));
+  const yearList = yearListObj.yearList;
+
+  const getSelectedMonth = (month) => {
+    return getMonth(startOfDay(month[1][0]));
+  };
+
+  const changeMonth = (
+    monthName,
+    monthIndex = monthNames.indexOf(monthName)
+  ) => {
+    const newMonth = takeMonths(new Date(yearList[selectedYear], monthIndex))();
+    setMonth(newMonth);
+  };
+
+  const changeSlectedYear = (value) => {
+    setSelectedYear(yearList.indexOf(value));
+  };
+
+  const [selectedYear, setSelectedYear] = useState(yearListObj.selected);
+  const [month, setMonth] = useState(takeMonths()());
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    !firstRender && changeMonth(null, getSelectedMonth(month));
+  }, [selectedYear]);
 
   return (
     <Card classNames="bg-primaryWhite w-[500px] h-[500px] p-[20px] m-20">
-      <SelectorHeader month={month} />
+      <SelectorWrapper>
+        <div>
+          <Select
+            options={monthNames}
+            initVal={getSelectedMonth(month)}
+            onChange={changeMonth}
+          />
+        </div>
+        <Select
+          options={yearList}
+          initVal={selectedYear}
+          onChange={changeSlectedYear}
+        />
+      </SelectorWrapper>
       <WeekHeader />
       <Weeks month={month} />
     </Card>

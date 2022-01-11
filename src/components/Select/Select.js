@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Listbox, Transition } from "@headlessui/react";
 import { StyledListBoxButton, Wrapper, MenuWrapper } from "./Styles";
@@ -8,14 +8,20 @@ function Select({
   options,
   initVal,
   varient,
+  onChange,
   wrapperClassNames,
   btnClassNames,
 }) {
-  const [selectedMonth, setSelectedMonth] = useState(options[initVal]);
+  const [selected, setSelected] = useState(options[initVal]);
+
+  const handleChange = (value) => {
+    setSelected(value);
+    onChange(value);
+  };
 
   return (
     <Wrapper varient={varient} className={`${wrapperClassNames}`}>
-      <Listbox value={selectedMonth} onChange={setSelectedMonth}>
+      <Listbox value={selected} onChange={handleChange}>
         {({ open }) => (
           <>
             <StyledListBoxButton
@@ -24,8 +30,8 @@ function Select({
                 open ? "rounded-t-[10px]" : "rounded-[10px]"
               } ${btnClassNames}`}
             >
-              {selectedMonth}
-              <RiArrowDropDownLine className="text-4xl" text-primaryGrey />
+              {selected}
+              <RiArrowDropDownLine className="text-4xl" />
             </StyledListBoxButton>
             <MenuWrapper
               varient={varient}
@@ -44,7 +50,7 @@ function Select({
                   {options.map((monthName, index) => (
                     <Listbox.Option key={index} value={monthName}>
                       {({ active, selected }) => (
-                        <li
+                        <div
                           className={`${
                             active ? "text-white bg-primaryBlue font-bold" : ""
                           } ${
@@ -52,7 +58,7 @@ function Select({
                           } px-[18px]`}
                         >
                           {monthName}
-                        </li>
+                        </div>
                       )}
                     </Listbox.Option>
                   ))}
