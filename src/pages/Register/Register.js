@@ -55,10 +55,10 @@ function Register() {
         wrapperClassNames=""
       />
       {/* <TextInput text="Gender" id="gender" name="gender" wrapperClassNames="" /> */}
-      <SelectInput
+      <Select
         options={["Gender", "Male", "Female", "Other"]}
-        text="Gender"
-        id="gender"
+        initVal={0}
+        varient="form"
       />
       <TextInput
         text="Emergency Number"
@@ -69,16 +69,16 @@ function Register() {
       <TextInput text="Address" id="addr" name="addr" wrapperClassNames="" />
       <div className="flex flex-row gap-x-10">
         {/* <TextInput text="State" id="state" name="state" wrapperClassNames="" /> */}
-        <SelectInput
+        <Select
           options={["State", "Kerala", "Tamil Nadu", "Karnataka"]}
-          text="State"
-          id="state"
+          initVal={0}
+          varient="form"
         />
         {/* <TextInput text="District" id="district" name="district" /> */}
-        <SelectInput
+        <Select
           options={["District", "Kottayam", "Kochi", "Kollam", "Malappuram"]}
-          text="District"
-          id="district"
+          initVal={0}
+          varient="form"
         />
       </div>
       <div className="col-end-3 flex flex-row-reverse">
