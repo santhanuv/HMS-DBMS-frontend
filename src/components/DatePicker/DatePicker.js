@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { takeWeeks, takeMonths, takeYears } from "../../utils/dates";
 import {
   WeekWrapper,
@@ -10,7 +10,7 @@ import {
 } from "./Styles";
 import { format, isSameDay, isSameMonth, getMonth, getYear } from "date-fns";
 import Card from "../Card";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import Select from "../Select/Select";
 
 const SelectorHeader = ({ month }) => {
   const monthNames = [
@@ -28,36 +28,29 @@ const SelectorHeader = ({ month }) => {
     "Dec",
   ];
 
-  const isSelectedMonth = (month, index) => {
-    if (index === getMonth(month[1][0])) return "selected";
-    else return "";
+  const getSelectedMonth = (month) => {
+    return getMonth(month[1][0]);
   };
 
-  const getYearListOptions = (selectedYear) => {
-    return [...Array(21)].map((_, index) => {
-      let year = selectedYear - 10 + index;
-      return (
-        <option selected={year === selectedYear ? "selected" : ""}>
-          {year}
-        </option>
-      );
-    });
+  const getYearList = (selectedYear, length = 21) => {
+    const pivot = Math.floor(length / 2);
+    console.log(pivot);
+    const years = [...Array(length)].map(
+      (_, index) => selectedYear - pivot + index
+    );
+    const seleted = years.indexOf(selectedYear);
+    return { yearList: years, selected: seleted };
   };
 
   const currentYear = getYear(month[1][0]);
+  const { yearList, selected } = getYearList(currentYear);
 
   return (
     <SelectorWrapper>
       <div>
-        <Selector>
-          {monthNames.map((monthName, index) => (
-            <option selected={isSelectedMonth(month, index)}>
-              {monthName}
-            </option>
-          ))}
-        </Selector>
+        <Select options={monthNames} initVal={getSelectedMonth(month)} />
       </div>
-      <Selector>{getYearListOptions(currentYear)}</Selector>
+      <Select options={yearList} initVal={selected} />
     </SelectorWrapper>
   );
 };
@@ -103,14 +96,6 @@ const Weeks = ({ month }) => {
     </WeekWrapper>
   );
 };
-
-// const getMonthName = (month) => {
-//   return format(month[2][0], "LLL");
-// };
-
-// const getYear = (month) => {
-//   return format(month[2][0], "yyyy");
-// };
 
 const handleClick = () => {
   const tw = takeWeeks();

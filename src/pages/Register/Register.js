@@ -5,6 +5,7 @@ import MainHeading from "../../components/MainHeading";
 import TextInput from "../../components/TextInput";
 import { FaAngleRight, FaAngleLeft, FaCheck } from "react-icons/fa";
 import SelectInput from "../../components/SelectInput";
+import Select from "../../components/Select";
 
 import Button from "../../components/Button";
 
