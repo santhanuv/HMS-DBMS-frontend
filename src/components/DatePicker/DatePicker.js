@@ -112,7 +112,8 @@ function DatePicker() {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    !firstRender && changeMonth(null, getSelectedMonth(month));
+    !firstRender.current && changeMonth(null, getSelectedMonth(month));
+    firstRender.current = false;
   }, [selectedYear]);
 
   return (
