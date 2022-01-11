@@ -5,6 +5,7 @@ import Register from "./pages/Register/Register";
 import User from "./pages/User";
 import Doctor from "./pages/Doctor";
 import Admin from "./pages/Admin";
+import DatePicker from "./components/DatePicker";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="/doctor" element={<Doctor />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/date" element={<DatePicker />} />
       </Routes>
     </div>
   );
