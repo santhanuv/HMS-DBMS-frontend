@@ -20,6 +20,7 @@ import {
 import Card from "../Card";
 import Select from "../Select/Select";
 import { useCallback } from "react/cjs/react.development";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const WeekHeader = () => {
   const weekNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -33,10 +34,22 @@ const WeekHeader = () => {
   );
 };
 
-const Weeks = ({ month }) => {
+const Weeks = ({ month, onClick, selected }) => {
+  const isSelected = (day1, day2) => {
+    if (isSameDay(day1, day2)) return "bg-primaryBlue text-white font-bold";
+    else return "text-primaryGrey";
+  };
+
   const getWeekClasses = (month, day) => {
     if (!isSameMonth(month[1][0], day)) return "text-disabledGrey";
-    return "text-primaryGrey";
+    return `hover:bg-primaryBlue hover:text-white hover:font-bold ${isSelected(
+      day,
+      selected
+    )}`;
+  };
+
+  const isDisabled = (month, day) => {
+    return !isSameMonth(month[1][0], day);
   };
 
   const getCurrentDayClasses = (day) => {
@@ -50,9 +63,12 @@ const Weeks = ({ month }) => {
         return week.map((day) => {
           return (
             <Week
+              disabled={isDisabled(month, day)}
               className={`${getWeekClasses(month, day)} ${getCurrentDayClasses(
                 day
               )}`}
+              id={format(day, "d")}
+              onClick={onClick}
             >
               {format(day, "dd")}
             </Week>
@@ -107,9 +123,20 @@ function DatePicker() {
     setSelectedYear(yearList.indexOf(value));
   };
 
+  const changeSelectedDate = (month) => (e) => {
+    const btnId = e.currentTarget.id;
+    const newDate = new Date(
+      yearList[selectedYear],
+      getSelectedMonth(month),
+      btnId
+    );
+    setSelectedDate(newDate);
+  };
+
   const [selectedYear, setSelectedYear] = useState(yearListObj.selected);
   const [month, setMonth] = useState(takeMonths()());
   const firstRender = useRef(true);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     !firstRender.current && changeMonth(null, getSelectedMonth(month));
@@ -133,7 +160,11 @@ function DatePicker() {
         />
       </SelectorWrapper>
       <WeekHeader />
-      <Weeks month={month} />
+      <Weeks
+        month={month}
+        onClick={changeSelectedDate(month)}
+        selected={selectedDate}
+      />
     </Card>
   );
 }
