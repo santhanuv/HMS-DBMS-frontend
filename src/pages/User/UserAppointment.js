@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../../components/Button";
 import MainHeading from "../../components/MainHeading";
 import Table from "../../components/Table";
-import { FaSearch, FaEdit, FaWindowClose } from "react-icons/fa";
+import { FaSearch, FaEdit, FaWindowClose, FaAngleRight } from "react-icons/fa";
+import { BsCalendarPlusFill } from "react-icons/bs";
 import Card from "../../components/Card";
 import CheckBox from "../../components/CheckBox";
 import Wrapper from "../../components/Wrapper/Wrapper";
@@ -10,6 +11,9 @@ import SelectInput from "../../components/SelectInput";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import Form from "../../components/Form";
+import DatePicker from "../../components/DatePicker";
+import CardSlider from "../../components/CardSlider";
+import CardButton from "../../components/CardButton";
 
 const docList = ["Doctor", "Doctor1", "Doctor2", "Doctor3"];
 
@@ -74,6 +78,10 @@ const remove = () => {
 
 function UserAppointment() {
   const [addCardVisible, setAddCardVisible] = useState(false);
+  const [showTable, setShowTable] = useState(false);
+
+  const [datePickerValue, setDatePickerValue] = useState(new Date());
+
   const addCardRef = useRef(null);
 
   const handleExitCard = (e) => {
@@ -90,6 +98,12 @@ function UserAppointment() {
     e.preventDefault();
 
     setAddCardVisible(true);
+  };
+
+  const handleShowTable = (e) => {
+    e.preventDefault();
+
+    setShowTable((prev) => !prev);
   };
 
   useEffect(() => document.addEventListener("click", handleExitCard, true));
@@ -129,20 +143,98 @@ function UserAppointment() {
     },
   ]);
 
+  const userAppointments = [
+    {
+      id: 1,
+      category: "Category",
+      time: "10:00-11:00",
+      docName: "Doctor Name",
+    },
+    {
+      id: 2,
+      category: "Category",
+      time: "10:00-11:00",
+      docName: "Doctor Name",
+    },
+    {
+      id: 3,
+      category: "Category",
+      time: "10:00-11:00",
+      docName: "Doctor Name",
+    },
+    {
+      id: 4,
+      category: "Category",
+      time: "10:00-11:00",
+      docName: "Doctor Name",
+    },
+    {
+      id: 5,
+      category: "Category",
+      time: "10:00-11:00",
+      docName: "Doctor Name",
+    },
+  ];
+
   return (
     <Wrapper className="relative">
       <MainHeading classNames="text-primaryGrey mb-[50px]">
         APPOINTMENT
       </MainHeading>
-      <Button
-        text="Add Appointment"
-        classNames="p-5 text-2xl rounded-[10px]"
-        wrapperClassNames="mt-6"
-        onClick={handleOpenCard}
-      />
-      <Card classNames="my-[40px] min-h-[600px]">
-        <Table columns={columns} data={data} />
-      </Card>
+      <div className="flex gap-[50px]">
+        <Button
+          text="Add Appointment"
+          classNames="p-5 text-2xl rounded-[10px]"
+          wrapperClassNames="mt-6"
+          onClick={handleOpenCard}
+        />
+        <Button
+          text={showTable ? "Hide Appointments" : "Show All Appointments"}
+          classNames="p-5 text-2xl rounded-[10px]"
+          wrapperClassNames="mt-6"
+          onClick={handleShowTable}
+        />
+      </div>
+      {showTable && (
+        <Card classNames="my-[40px] min-h-[600px]">
+          <Table columns={columns} data={data} />
+        </Card>
+      )}
+      {!showTable && (
+        <Card classNames="p-[20px] flex justify-between mt-[50px]">
+          <Card classNames="p-[40px] basis-1/2 justify-center items-center">
+            <DatePicker
+              selectedDate={datePickerValue}
+              setSelectedDate={setDatePickerValue}
+            />
+          </Card>
+          <div className="basis-5/12">
+            <CardSlider cap={3} varient={1}>
+              {userAppointments.map((appointment) => (
+                <CardButton
+                  text={
+                    <div className="flex flex-col gap-[2px]">
+                      <h1 className="font-montserrat font-bold text-2xl">
+                        {appointment.time}
+                      </h1>
+                      <h1 className="font-montserrat font-bold text-xl">
+                        {appointment.docName}
+                      </h1>
+                      <h1 className="font-montserrat text-xl">
+                        {appointment.category}
+                      </h1>
+                    </div>
+                  }
+                  icon={<BsCalendarPlusFill className="text-5xl" />}
+                  btnIcon={<FaAngleRight className="text-5xl" />}
+                  onClick={() => {}}
+                  id={appointment.id}
+                />
+              ))}
+            </CardSlider>
+          </div>
+        </Card>
+      )}
       {addCardVisible && (
         <div
           className="w-[1450px] h-[700px] absolute top-[160px] static"
