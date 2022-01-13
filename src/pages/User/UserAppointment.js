@@ -7,13 +7,15 @@ import Card from "../../components/Card";
 import CheckBox from "../../components/CheckBox";
 import Wrapper from "../../components/Wrapper/Wrapper";
 import SelectInput from "../../components/SelectInput";
+import Select from "../../components/Select";
+import TextInput from "../../components/TextInput";
 import Form from "../../components/Form";
 
 const docList = ["Doctor", "Doctor1", "Doctor2", "Doctor3"];
 
 const formInputs = [
-  <SelectInput options={docList} text="Doctor" id="doc" />,
-  <SelectInput options={["Date"]} text="Date" id="date" />,
+  <Select options={docList} text="Doctor" id="doc" varient="form" />,
+  <TextInput text="Date" varient="date" id="date" name="date" />,
   <Button
     text="ADD"
     id="add_btn"

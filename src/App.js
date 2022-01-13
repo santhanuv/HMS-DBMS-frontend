@@ -17,7 +17,14 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="/doctor" element={<Doctor />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/date" element={<DatePicker />} />
+        <Route
+          path="/date"
+          element={
+            <div className="w-[500px] h-[500px] bg-white shadow-2xl rounded-[20px] m-20 p-[20px]">
+              <DatePicker />
+            </div>
+          }
+        />
       </Routes>
     </div>
   );

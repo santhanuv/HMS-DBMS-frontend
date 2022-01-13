@@ -4,13 +4,14 @@ import Form from "../../components/Form";
 import MainHeading from "../../components/MainHeading";
 import TextInput from "../../components/TextInput";
 import { FaAngleRight, FaAngleLeft, FaCheck } from "react-icons/fa";
-import SelectInput from "../../components/SelectInput";
 import Select from "../../components/Select";
 
 import Button from "../../components/Button";
 
 function Register() {
   const [formState, setFormState] = useState(false);
+
+  const [formValues, setFormValues] = useState([]);
 
   const handleToggle = (e) => {
     e.preventDefault();
@@ -44,6 +45,7 @@ function Register() {
       />
       <TextInput
         text="Date Of Birth"
+        varient="date"
         id="dob"
         name="dob"
         wrapperClassNames=""

@@ -14,4 +14,7 @@ absolute transition-all top-[24px] left-[50px] font-montserrat text-2xl
 peer-focus:bg-white peer-focus:top-[-18px] peer-focus:left-[20px] peer-focus:text-xl 
 duration-300 opacity-0 peer-focus:opacity-100 text-primaryBlue ease-in-out`;
 
-export { StyledTextInput, Wrapper, Label };
+const CalenderButton = tw.button`absolute right-[30px] top-[30px] text-xl text-primaryGrey pointer-events-none`;
+const DateWrapper = tw.div`absolute top-[90px] right-[0px] bg-white shadow-2xl rounded-[20px] p-[20px] z-[100]`;
+
+export { StyledTextInput, Wrapper, Label, CalenderButton, DateWrapper };

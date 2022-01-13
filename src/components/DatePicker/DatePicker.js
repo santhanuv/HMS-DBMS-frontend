@@ -1,40 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { takeWeeks, takeMonths, takeYears } from "../../utils/dates";
-import { IoCalendarClear } from "react-icons/io5";
-import {
-  WeekWrapper,
-  WeekNameWrapper,
-  Week,
-  WeekName,
-  SelectorWrapper,
-  Selector,
-} from "./Styles";
-import {
-  format,
-  isSameDay,
-  isSameMonth,
-  getMonth,
-  getYear,
-  startOfDay,
-} from "date-fns";
-import Card from "../Card";
+import { takeMonths } from "../../utils/dates";
+import { WeekWrapper, Week, WeekName, SelectorWrapper } from "./Styles";
+import { format, isSameDay, isSameMonth, getYear, startOfDay } from "date-fns";
 import Select from "../Select/Select";
-import { useCallback } from "react/cjs/react.development";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
-const WeekHeader = () => {
+const Weeks = ({ monthIndex, onClick, selected, varient, selectedYear }) => {
   const weekNames = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
-  return (
-    <WeekNameWrapper>
-      {weekNames.map((name) => (
-        <WeekName>{name}</WeekName>
-      ))}
-    </WeekNameWrapper>
-  );
-};
+  const getMonth = (monthIndex) => {
+    if (!selectedYear || (monthIndex < 0 && monthIndex > 12))
+      return takeMonths()();
+    else if (monthIndex < 0 && monthIndex > 12)
+      return takeMonths(new Date(selectedYear))();
+    return takeMonths(new Date(selectedYear, monthIndex))();
+  };
 
-const Weeks = ({ month, onClick, selected }) => {
+  const month = getMonth(monthIndex);
+
   const isSelected = (day1, day2) => {
     if (isSameDay(day1, day2)) return "bg-primaryBlue text-white font-bold";
     else return "text-primaryGrey";
@@ -59,10 +41,14 @@ const Weeks = ({ month, onClick, selected }) => {
 
   return (
     <WeekWrapper>
+      {weekNames.map((name) => (
+        <WeekName varient={varient}>{name}</WeekName>
+      ))}
       {month.map((week) => {
         return week.map((day) => {
           return (
             <Week
+              varient={varient}
               disabled={isDisabled(month, day)}
               className={`${getWeekClasses(month, day)} ${getCurrentDayClasses(
                 day
@@ -79,14 +65,22 @@ const Weeks = ({ month, onClick, selected }) => {
   );
 };
 
-function DatePicker() {
-  const getYearList = (selectedYear, length = 21) => {
+function DatePicker({ varient = "default", selectedDate, setSelectedDate }) {
+  const getYearList = (selectedDate, length = 21) => {
+    const selectedYear =
+      selectedDate === null
+        ? getYear(startOfDay(new Date()))
+        : getYear(startOfDay(selectedDate));
+
+    const currentYear = getYear(startOfDay(new Date()));
     const pivot = Math.floor(length / 2);
+
     const years = [...Array(length)].map(
-      (_, index) => selectedYear - pivot + index
+      (_, index) => currentYear - pivot + index
     );
-    const seleted = years.indexOf(selectedYear);
-    return { yearList: years, selected: seleted };
+    let selected = years.indexOf(selectedYear);
+    selected = selected === -1 ? 10 : selected;
+    return { yearList: years, selected: selected };
   };
 
   const monthNames = [
@@ -104,19 +98,12 @@ function DatePicker() {
     "Dec",
   ];
 
-  const yearListObj = getYearList(getYear(startOfDay(new Date())));
+  const yearListObj = getYearList(selectedDate);
   const yearList = yearListObj.yearList;
 
-  const getSelectedMonth = (month) => {
-    return getMonth(startOfDay(month[1][0]));
-  };
-
-  const changeMonth = (
-    monthName,
-    monthIndex = monthNames.indexOf(monthName)
-  ) => {
-    const newMonth = takeMonths(new Date(yearList[selectedYear], monthIndex))();
-    setMonth(newMonth);
+  const getSelectedMonth = () => {
+    if (!selectedDate) selectedDate = new Date();
+    return selectedDate.getMonth();
   };
 
   const changeSlectedYear = (value) => {
@@ -124,48 +111,44 @@ function DatePicker() {
   };
 
   const changeSelectedDate = (month) => (e) => {
-    const btnId = e.currentTarget.id;
-    const newDate = new Date(
-      yearList[selectedYear],
-      getSelectedMonth(month),
-      btnId
-    );
+    const day = e.currentTarget.id;
+    const newDate = new Date(yearList[selectedYear], month, day);
     setSelectedDate(newDate);
   };
 
-  const [selectedYear, setSelectedYear] = useState(yearListObj.selected);
-  const [month, setMonth] = useState(takeMonths()());
+  const [selectedYear, setSelectedYear] = useState(0);
+  const [month, setMonth] = useState(0);
   const firstRender = useRef(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
-    !firstRender.current && changeMonth(null, getSelectedMonth(month));
-    firstRender.current = false;
-  }, [selectedYear]);
+    setSelectedYear(yearListObj.selected);
+    setMonth(getSelectedMonth());
+  }, [selectedDate]);
 
   return (
-    <Card classNames="bg-primaryWhite w-[500px] h-[500px] p-[20px] m-20">
-      <SelectorWrapper>
+    <>
+      <SelectorWrapper varient={varient}>
         <div>
           <Select
             options={monthNames}
-            initVal={getSelectedMonth(month)}
-            onChange={changeMonth}
+            selected={month}
+            setSelected={setMonth}
           />
         </div>
         <Select
           options={yearList}
-          initVal={selectedYear}
-          onChange={changeSlectedYear}
+          selected={selectedYear}
+          setSelected={setSelectedYear}
         />
       </SelectorWrapper>
-      <WeekHeader />
       <Weeks
-        month={month}
+        varient={varient}
+        monthIndex={month}
+        selectedYear={yearList[selectedYear]}
         onClick={changeSelectedDate(month)}
         selected={selectedDate}
       />
-    </Card>
+    </>
   );
 }
 

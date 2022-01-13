@@ -1,27 +1,30 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Listbox, Transition } from "@headlessui/react";
 import { StyledListBoxButton, Wrapper, MenuWrapper } from "./Styles";
-import tw from "twin.macro";
 
 function Select({
   options,
-  initVal,
+  selected,
   varient,
-  onChange,
+  setSelected,
   wrapperClassNames,
   btnClassNames,
 }) {
-  const [selected, setSelected] = useState(options[initVal]);
-
   const handleChange = (value) => {
-    setSelected(value);
-    onChange(value);
+    const index = options.indexOf(value);
+    if (selected && setSelected) setSelected(index);
+    else setDefaultSelected(index);
   };
+
+  const [defaultSelected, setDefaultSelected] = useState(0);
 
   return (
     <Wrapper varient={varient} className={`${wrapperClassNames}`}>
-      <Listbox value={selected} onChange={handleChange}>
+      <Listbox
+        value={options[selected || defaultSelected]}
+        onChange={handleChange}
+      >
         {({ open }) => (
           <>
             <StyledListBoxButton
@@ -30,7 +33,7 @@ function Select({
                 open ? "rounded-t-[10px]" : "rounded-[10px]"
               } ${btnClassNames}`}
             >
-              {selected}
+              {options[selected || defaultSelected]}
               <RiArrowDropDownLine className="text-4xl" />
             </StyledListBoxButton>
             <MenuWrapper
