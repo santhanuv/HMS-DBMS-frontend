@@ -5,8 +5,13 @@ border-0 w-full h-full font-montserrat text-xl py-[22px] pl-[50px] bg-white
 rounded-[10px] placeholder:text-primaryGrey ring-2 ring-lightGrey
 `;
 
+const StyledTextArea = tw.textarea`appearance-none
+border-0 w-full h-full font-montserrat text-xl py-[22px] pl-[50px] bg-white
+rounded-[10px] placeholder:text-primaryGrey ring-2 ring-lightGrey scrollbar-thin scrollbar-track-primaryGrey 
+scrollbar-thumb-white`;
+
 const Wrapper = tw.div`
-mb-16 w-full h-20 relative
+mb-16 w-full relative
 `;
 
 const Label = tw.label`
@@ -17,4 +22,11 @@ duration-300 opacity-0 peer-focus:opacity-100 text-primaryBlue ease-in-out`;
 const CalenderButton = tw.button`absolute right-[30px] top-[30px] text-xl text-primaryGrey pointer-events-none`;
 const DateWrapper = tw.div`absolute top-[90px] right-[0px] bg-white shadow-2xl rounded-[20px] p-[20px] z-[100]`;
 
-export { StyledTextInput, Wrapper, Label, CalenderButton, DateWrapper };
+export {
+  StyledTextInput,
+  Wrapper,
+  Label,
+  CalenderButton,
+  DateWrapper,
+  StyledTextArea,
+};
