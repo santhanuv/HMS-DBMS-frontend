@@ -78,7 +78,6 @@ const remove = () => {
 
 function UserAppointment() {
   const [addCardVisible, setAddCardVisible] = useState(false);
-  const [showTable, setShowTable] = useState(false);
 
   const [datePickerValue, setDatePickerValue] = useState(new Date());
 
@@ -98,12 +97,6 @@ function UserAppointment() {
     e.preventDefault();
 
     setAddCardVisible(true);
-  };
-
-  const handleShowTable = (e) => {
-    e.preventDefault();
-
-    setShowTable((prev) => !prev);
   };
 
   useEffect(() => document.addEventListener("click", handleExitCard, true));
@@ -177,31 +170,18 @@ function UserAppointment() {
   ];
 
   return (
-    <Wrapper className="relative">
+    <Wrapper className="">
       <MainHeading classNames="text-primaryGrey mb-[50px]">
         APPOINTMENT
       </MainHeading>
-      <div className="flex gap-[50px]">
-        <Button
-          text="Add Appointment"
-          classNames="p-5 text-2xl rounded-[10px]"
-          wrapperClassNames="mt-6"
-          onClick={handleOpenCard}
-        />
-        <Button
-          text={showTable ? "Hide Appointments" : "Show All Appointments"}
-          classNames="p-5 text-2xl rounded-[10px]"
-          wrapperClassNames="mt-6"
-          onClick={handleShowTable}
-        />
-      </div>
-      {showTable && (
-        <Card classNames="my-[40px] min-h-[600px]">
-          <Table columns={columns} data={data} />
-        </Card>
-      )}
-      {!showTable && (
-        <Card classNames="p-[20px] flex justify-between mt-[50px]">
+      <Button
+        text="Add Appointment"
+        classNames="p-5 text-2xl rounded-[10px]"
+        wrapperClassNames="mt-6"
+        onClick={handleOpenCard}
+      />
+      {
+        <Card classNames="p-[20px] flex justify-between mt-[50px] h-[600px]">
           <Card classNames="p-[40px] basis-1/2 justify-center items-center">
             <DatePicker
               selectedDate={datePickerValue}
@@ -234,7 +214,12 @@ function UserAppointment() {
             </CardSlider>
           </div>
         </Card>
-      )}
+      }
+      {
+        <Card classNames="my-[40px] min-h-[600px]">
+          <Table columns={columns} data={data} />
+        </Card>
+      }
       {addCardVisible && (
         <div
           className="w-[1450px] h-[700px] absolute top-[160px] static"

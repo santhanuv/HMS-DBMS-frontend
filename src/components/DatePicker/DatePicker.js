@@ -106,10 +106,6 @@ function DatePicker({ varient = "default", selectedDate, setSelectedDate }) {
     return selectedDate.getMonth();
   };
 
-  const changeSlectedYear = (value) => {
-    setSelectedYear(yearList.indexOf(value));
-  };
-
   const changeSelectedDate = (month) => (e) => {
     const day = e.currentTarget.id;
     const newDate = new Date(yearList[selectedYear], month, day);
@@ -118,7 +114,6 @@ function DatePicker({ varient = "default", selectedDate, setSelectedDate }) {
 
   const [selectedYear, setSelectedYear] = useState(0);
   const [month, setMonth] = useState(0);
-  const firstRender = useRef(true);
 
   useEffect(() => {
     setSelectedYear(yearListObj.selected);

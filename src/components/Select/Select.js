@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Listbox, Transition } from "@headlessui/react";
 import { StyledListBoxButton, Wrapper, MenuWrapper } from "./Styles";
@@ -50,8 +50,8 @@ function Select({
                 leaveTo="transform scale-95 opacity-0"
               >
                 <Listbox.Options>
-                  {options.map((monthName, index) => (
-                    <Listbox.Option key={index} value={monthName}>
+                  {options.map((itemName, index) => (
+                    <Listbox.Option key={index} value={itemName}>
                       {({ active, selected }) => (
                         <div
                           className={`${
@@ -60,7 +60,7 @@ function Select({
                             selected && !active && "text-primaryBlue font-bold"
                           } px-[18px]`}
                         >
-                          {monthName}
+                          {itemName}
                         </div>
                       )}
                     </Listbox.Option>
