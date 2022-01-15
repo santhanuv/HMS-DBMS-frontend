@@ -52,7 +52,7 @@ function User() {
   ];
 
   return (
-    <div className="bg-white w-screen h-screen">
+    <div className="bg-white">
       <div className="h-screen fixed h-screen block top-0 left-0">
         <SideBar
           items={sideBarItems}
