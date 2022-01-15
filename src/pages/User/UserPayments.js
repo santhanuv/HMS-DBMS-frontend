@@ -28,18 +28,11 @@ function UserPayments() {
       accessor: "amount",
     },
     {
-      Header: "Staus",
+      Header: "Status",
       accessor: "status",
     },
     {
-      Header: (
-        <Button
-          icon={<FaSearch />}
-          id="search_btn"
-          isCustom={true}
-          classNames="text-3xl"
-        />
-      ),
+      Header: "",
       accessor: "btns",
     },
   ]);
