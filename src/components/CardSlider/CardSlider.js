@@ -7,7 +7,6 @@ import {
   FaAngleDown,
 } from "react-icons/fa";
 import Button from "../Button";
-import StyledCardButton from "./Styles";
 import Card from "../Card";
 
 function CardSlider({

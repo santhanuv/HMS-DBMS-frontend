@@ -7,35 +7,38 @@ import Wrapper from "../../components/Wrapper/Wrapper";
 import Card from "../../components/Card";
 import Badge from "../../components/Badge";
 import Table from "../../components/Table";
-import { FaSearch, FaAngleRight } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 
 function UserPayments() {
-  const columns = React.useMemo(() => [
-    {
-      Header: "Bill Id",
-      accessor: "id",
-    },
-    {
-      Header: "Payed Date",
-      accessor: "payedDate",
-    },
-    {
-      Header: "Billed Date",
-      accessor: "billedDate",
-    },
-    {
-      Header: "Amount",
-      accessor: "amount",
-    },
-    {
-      Header: "Status",
-      accessor: "status",
-    },
-    {
-      Header: "",
-      accessor: "btns",
-    },
-  ]);
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Bill Id",
+        accessor: "id",
+      },
+      {
+        Header: "Payed Date",
+        accessor: "payedDate",
+      },
+      {
+        Header: "Billed Date",
+        accessor: "billedDate",
+      },
+      {
+        Header: "Amount",
+        accessor: "amount",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+      {
+        Header: "",
+        accessor: "btns",
+      },
+    ],
+    []
+  );
 
   const remove = () => {
     const list = [];

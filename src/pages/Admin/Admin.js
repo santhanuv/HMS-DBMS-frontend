@@ -6,6 +6,7 @@ import AdminDashboard from "./AdminDashboard";
 import AdminAddDoc from "./AdminAddDoc";
 import Notification from "../../components/Notification";
 import Avatar from "../../components/Avatar";
+import { Outlet } from "react-router-dom";
 
 const contentSelector = (selected) => {
   switch (selected) {
@@ -23,12 +24,12 @@ const sideBarItems = [
   {
     id: "0",
     text: "Dashboard",
-    selected: false,
+    path: "/admin",
     icon: <BsFillGridFill />,
   },
   {
     text: "Add Doctor",
-    selected: false,
+    path: "/admin/addDoc",
     icon: <FaUserMd />,
     id: "1",
   },
@@ -44,7 +45,7 @@ function Admin() {
 
   return (
     <div className="bg-white">
-      <div className="h-screen fixed h-screen block top-0 left-0">
+      <div className="h-screen fixed h-screen block top-0 left-0 z-[1]">
         <SideBar
           items={sideBarItems}
           selected={selected}
@@ -52,16 +53,13 @@ function Admin() {
           onChange={onSideBarToggle}
         />
       </div>
-      <div
-        className={`${
-          sideBarOpen ? "ml-[380px]" : "ml-[150px]"
-        }   w-9/12 relative`}
-      >
+      <div className={`ml-[150px]  w-9/12 relative`}>
         <span className="absolute z-10 top-[50px] right-[0px] flex gap-[10px]">
           <Avatar name="Santhanu" />
           <Notification />
         </span>
-        {contentSelector(selected)}
+        {/* {contentSelector(selected)} */}
+        <Outlet />
       </div>
     </div>
   );

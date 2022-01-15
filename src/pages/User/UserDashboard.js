@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BsFileMedicalFill, BsFileArrowDownFill } from "react-icons/bs";
 import MainHeading from "../../components/MainHeading";
 import CardButton from "../../components/CardButton";

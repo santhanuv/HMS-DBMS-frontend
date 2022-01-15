@@ -1,2 +1,5 @@
 import Admin from "./Admin";
-export default Admin;
+import AdminAddDoc from "./AdminAddDoc";
+import AdminDashboard from "./AdminDashboard";
+
+export { Admin, AdminAddDoc, AdminDashboard };

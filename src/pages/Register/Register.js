@@ -56,7 +56,6 @@ function Register() {
         name="phNum"
         wrapperClassNames=""
       />
-      {/* <TextInput text="Gender" id="gender" name="gender" wrapperClassNames="" /> */}
       <Select
         options={["Gender", "Male", "Female", "Other"]}
         initVal={0}
@@ -70,13 +69,11 @@ function Register() {
       />
       <TextInput text="Address" id="addr" name="addr" wrapperClassNames="" />
       <div className="flex flex-row gap-x-10">
-        {/* <TextInput text="State" id="state" name="state" wrapperClassNames="" /> */}
         <Select
           options={["State", "Kerala", "Tamil Nadu", "Karnataka"]}
           initVal={0}
           varient="form"
         />
-        {/* <TextInput text="District" id="district" name="district" /> */}
         <Select
           options={["District", "Kottayam", "Kochi", "Kollam", "Malappuram"]}
           initVal={0}

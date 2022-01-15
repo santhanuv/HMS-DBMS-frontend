@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaBars, FaAngleLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import Button from "../Button";
 
-/**
- *
- * params:
- *  items:    The items to display on the sidebar
- *  selected: Which item needs to be selected
- *  selector: The function that changes selected when the item is clicked
- *  onChange: the function to call when the open state of the sidebar changes
- *
- */
-
-function SideBar({ items, selected, selector, onChange }) {
+function SideBar({ items, initSelect = "0" }) {
   const notSlectedBtnClasses = "text-primaryGrey";
 
   const [openState, setOpenState] = useState(false);
-
-  useEffect(() => onChange && onChange(openState), [openState]);
+  const [selected, setSelected] = useState(initSelect); // Should give the selected id as a string
 
   const toggleHandle = (e) => {
     if (e.currentTarget.id === "close_btn" && openState) setOpenState(false);
@@ -26,7 +16,7 @@ function SideBar({ items, selected, selector, onChange }) {
   };
 
   const handleSelection = (e) => {
-    selector(e.currentTarget.id);
+    setSelected(e.currentTarget.id);
   };
 
   const createButtonList = (items, openState, selected) => {
@@ -34,17 +24,19 @@ function SideBar({ items, selected, selector, onChange }) {
       <>
         {items.map((item) => {
           return (
-            <Button
-              text={openState ? item.text : null}
-              icon={item.icon}
-              id={item.id}
-              onClick={handleSelection}
-              wrapperClassNames="w-full my-[15px]"
-              classNames={`h-[80px] flex items-center gap-[25px] w-full text-2xl 
+            <Link to={item.path}>
+              <Button
+                text={openState ? item.text : null}
+                icon={item.icon}
+                id={item.id}
+                onClick={handleSelection}
+                wrapperClassNames="w-full my-[15px]"
+                classNames={`h-[80px] flex items-center gap-[25px] w-full text-2xl 
                 ${openState ? "pl-[50px]" : "justify-center"}
                 ${selected !== item.id ? notSlectedBtnClasses : ""}`}
-              isCustom={selected !== item.id}
-            />
+                isCustom={selected !== item.id}
+              />
+            </Link>
           );
         })}
       </>
@@ -54,7 +46,7 @@ function SideBar({ items, selected, selector, onChange }) {
   // SideBar
   return (
     <div
-      className={`h-full bg-lightGrey ${openState ? `w-[320px]` : `w-[100px]`}`}
+      className={`h-full bg-lightGrey ${openState ? `w-[350px]` : `w-[100px]`}`}
     >
       {/* The Header Part*/}
       {openState ? (
