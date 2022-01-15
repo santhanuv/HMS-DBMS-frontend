@@ -19,7 +19,9 @@ function TextInput({
   wrapperClassNames,
   classNames,
   type,
+  onChange,
   varient = "default",
+  noMargin = false,
 }) {
   const [labelVisible, setLabelVisible] = useState(true);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -104,6 +106,19 @@ function TextInput({
   focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus`}
       />
     ),
+    table: (
+      <StyledTextInput
+        type={type ? type : "text"}
+        id={id}
+        ref={inputRef}
+        onChange={onChange}
+        name={name}
+        placeholder={text}
+        className={`${classNames} peer outline-none focus:outline-primaryBlue 
+focus:border-transparent focus:ring-white placeholder-remove-focus`}
+        // placeholder-remove-focus is custom utility
+      />
+    ),
     default: (
       <StyledTextInput
         type={type ? type : "text"}
@@ -122,14 +137,20 @@ function TextInput({
   return (
     <Wrapper
       className={`${wrapperClassNames} ${
-        varient === "textArea" ? "h-[200px]" : "h-20"
-      }`}
+        varient === "textArea"
+          ? "h-[200px]"
+          : varient === "table"
+          ? "h-10"
+          : "h-20"
+      } ${noMargin ? "" : "mb-16"}`}
     >
       {varients[varient]}
 
-      <Label for={id} className="">
-        {text}
-      </Label>
+      {!(varient === "table") && (
+        <Label for={id} varient={varient === "table" && "blue"}>
+          {text}
+        </Label>
+      )}
       {varient === "date" ? (
         <CalenderButton disabled={true}>
           <BsFillCalendarPlusFill />

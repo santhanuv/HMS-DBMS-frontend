@@ -16,11 +16,12 @@ import BreadCrumbs from "../../components/BreadCrumbs";
 // Creates mock data
 const remove = () => {
   const list = [];
+  const names = ["A", "B", "Z", "S", "M"];
   for (let i = 0; i < 10; i++) {
     list.push({
       id: i,
-      pat_name: "Santhanu V",
-      date: "25/01/2026",
+      pat_name: names[i % 5],
+      date: `${10 + i}/01/2026`,
       time: "10:00-11:00",
       status:
         i % 2 === 0 ? (
@@ -66,14 +67,7 @@ function DoctorAppointments() {
       accessor: "status",
     },
     {
-      Header: (
-        <Button
-          icon={<FaSearch />}
-          id="search_btn"
-          isCustom={true}
-          classNames="text-3xl"
-        />
-      ),
+      Header: "",
       accessor: "btns",
     },
   ]);

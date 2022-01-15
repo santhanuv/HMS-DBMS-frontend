@@ -124,14 +124,7 @@ function UserAppointment() {
       accessor: "price",
     },
     {
-      Header: (
-        <Button
-          icon={<FaSearch />}
-          id="search_btn"
-          isCustom={true}
-          classNames="text-3xl"
-        />
-      ),
+      Header: "",
       accessor: "btns",
     },
   ]);
