@@ -8,7 +8,6 @@ import {
   FaUserMd,
   FaBed,
 } from "react-icons/fa";
-import { MdLocalPharmacy } from "react-icons/md";
 import ShowCard from "../../components/ShowCard";
 
 function AdminDashboard() {

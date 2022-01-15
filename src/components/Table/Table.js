@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyledTable,
   StyledTHead,
@@ -7,8 +7,7 @@ import {
   StyledTD,
 } from "./Styles";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
-import Button from "../Button";
-import { FaAngleDown, FaAngleUp, FaSearch } from "react-icons/fa";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import GlobalFilter from "./utils/GlobalFilter";
 
 function Table({ columns, data }) {

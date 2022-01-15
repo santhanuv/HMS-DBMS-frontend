@@ -1,6 +1,5 @@
 import React from "react";
 import Card from "../Card";
-import StyledCard from "../Card/Styles";
 import StyledShowCard from "./Styles";
 
 function ShowCard({ icon, children = [], classNames }) {

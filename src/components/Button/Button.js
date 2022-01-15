@@ -1,21 +1,6 @@
 import StyledButton from "./Styles";
 import React from "react";
 
-/**
- *
- *  Params:
- *    id: id of the button
- *    onClick: the function to be called on click
- *    text: the text of the button
- *    classNames: the tailwind classnames for button
- *    WrapperClassNames: the tailwind classnames for the wrapper on the button
- *    icon: the icon of the button
- *    disabled: to disable the button
- *    isCustom: to do custom styling
- *    ref: to add a reference
- *
- */
-
 function Button({
   id,
   onClick,
