@@ -11,6 +11,7 @@ import SelectInput from "../../components/SelectInput";
 import TextInput from "../../components/TextInput";
 import Form from "../../components/Form";
 import CardSlider from "../../components/CardSlider";
+import BreadCrumbs from "../../components/BreadCrumbs";
 
 // Creates mock data
 const remove = () => {
@@ -119,19 +120,19 @@ function DoctorAppointments() {
   const formInputs = [
     <TextInput text="Medicine" id="medName" name="medName" />,
     <TextInput text="Dosage" id="dosage" name="dosage" />,
-    <SelectInput
-      options={["Till", "Date"]}
-      text="No of Days"
-      id="days"
-      name="days"
-    />,
+    <TextInput text="Till" id="till" name="till" varient="date" />,
     <Button
       id="addPres"
       text="ADD PRESCRIPTION"
       classNames="p-[20px] text-xl w-full mb-[60px] rounded-[10px]"
       onClick={addPresCards}
     />,
-    <TextInput text="Disease Description" id="disDesc" name="disDesc" />,
+    <TextInput
+      text="Disease Description"
+      id="disDesc"
+      name="disDesc"
+      varient="textArea"
+    />,
     <Button
       id="finish"
       text="FINISH"
@@ -144,6 +145,10 @@ function DoctorAppointments() {
       <MainHeading classNames="text-primaryGrey mb-[50px]">
         Appointments
       </MainHeading>
+
+      {prescribe && (
+        <BreadCrumbs list={["Appointments", "Prescribe"]} current={1} />
+      )}
 
       {prescribe ? (
         <Card

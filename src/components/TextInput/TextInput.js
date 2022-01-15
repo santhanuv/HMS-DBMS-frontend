@@ -4,6 +4,7 @@ import {
   Label,
   CalenderButton,
   DateWrapper,
+  StyledTextArea,
 } from "./Styles";
 import React, { useEffect, useRef, useState } from "react";
 import { BsFillCalendarPlusFill } from "react-icons/bs";
@@ -18,7 +19,7 @@ function TextInput({
   wrapperClassNames,
   classNames,
   type,
-  varient,
+  varient = "default",
 }) {
   const [labelVisible, setLabelVisible] = useState(true);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -77,22 +78,55 @@ function TextInput({
     }
   };
 
-  return (
-    <Wrapper className={`${wrapperClassNames}`}>
+  const varients = {
+    date: (
       <StyledTextInput
         type={type ? type : "text"}
         id={id}
         ref={inputRef}
         onFocus={() => changeDatePickerVisiblity(true)}
-        // onBlur={() => changeDatePickerVisiblity(false)}
         name={name}
         onChange={handleTyping}
         onKeyDown={selectDateOnEnter}
         placeholder={text}
         className={`${classNames} peer outline-none focus:outline-white 
-        focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus`}
+    focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus`}
         // placeholder-remove-focus is custom utility
       />
+    ),
+    textArea: (
+      <StyledTextArea
+        id={id}
+        name={name}
+        onChange={handleTyping}
+        placeholder={text}
+        className={`${classNames} peer outline-none focus:outline-white 
+  focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus`}
+      />
+    ),
+    default: (
+      <StyledTextInput
+        type={type ? type : "text"}
+        id={id}
+        ref={inputRef}
+        name={name}
+        onChange={handleTyping}
+        placeholder={text}
+        className={`${classNames} peer outline-none focus:outline-white 
+  focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus`}
+        // placeholder-remove-focus is custom utility
+      />
+    ),
+  };
+
+  return (
+    <Wrapper
+      className={`${wrapperClassNames} ${
+        varient === "textArea" ? "h-[200px]" : "h-20"
+      }`}
+    >
+      {varients[varient]}
+
       <Label for={id} className="">
         {text}
       </Label>
