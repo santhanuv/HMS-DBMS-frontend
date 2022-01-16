@@ -1,3 +1,5 @@
+import ProgressBar from "../components/ProgressBar/ProgressBar";
+
 import { Navigate } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
@@ -77,6 +79,10 @@ const routes = [
         element: <DoctorPrescribe />,
       },
     ],
+  },
+  {
+    path: "/progressBar",
+    element: <ProgressBar />,
   },
 ];
 
