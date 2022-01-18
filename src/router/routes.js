@@ -1,4 +1,4 @@
-import ProgressBar from "../components/ProgressBar/ProgressBar";
+import Form from "../pages/Form";
 
 import { Navigate } from "react-router-dom";
 import Login from "../pages/Login/Login";
@@ -81,8 +81,8 @@ const routes = [
     ],
   },
   {
-    path: "/progressBar",
-    element: <ProgressBar />,
+    path: "/form",
+    element: <Form />,
   },
 ];
 

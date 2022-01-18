@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAsyncDebounce } from "react-table";
 import TextInput from "../../TextInput";
+import TextField from "../../TextInput/TextField";
 import tw from "twin.macro";
 
 function GlobalFilter({ globalFilter, setGlobalFilter }) {
@@ -11,15 +12,17 @@ function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
     <div className="p-[20px] w-[500px]">
-      <TextInput
-        noMargin={true}
-        varient="table"
+      <TextField
+        inTable={true}
         text="Search"
-        type="text"
+        name="SearchBar"
+        value={value}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
+        wrapperClassName={`h-10`}
+        className={`focus: outline-none focus: border-none`}
       />
     </div>
   );

@@ -5,11 +5,11 @@ import Button from "../../components/Button";
 import Card from "../../components/Card";
 import Form from "../../components/Form";
 import { FaAngleRight, FaAngleLeft, FaCheck } from "react-icons/fa";
+import { Children } from "react/cjs/react.production.min";
 
 const handleToggle = (setFormState) => (e) => {
   e.preventDefault();
   const id = e.currentTarget.id;
-  console.log(id);
   if (!id) return;
 
   switch (id) {
@@ -23,73 +23,181 @@ const handleToggle = (setFormState) => (e) => {
 };
 
 function FormInput({ formState, setFormState }) {
-  const formInputs1 = [
-    <div className="grid grid-cols-2 gap-x-10">
-      <TextInput text="First Name" id="fname" name="fname" />
-      <TextInput text="Last Name" id="lname" name="lname" />
-      <TextInput text="Date Of Birth" varient="date" id="dob" name="dob" />
-      <TextInput text="Phone Number" id="phNum" name="phNum" />
-      <Select
-        options={["Gender", "Male", "Female", "Other"]}
-        initVal={0}
-        varient="form"
-      />
-      <TextInput text="Emergency Number" id="emnum" name="emnum" />
-      <TextInput text="Address" id="addr" name="addr" />
-      <div className="flex flex-row gap-x-10">
-        <Select
-          options={["State", "Kerala", "Tamil Nadu", "Karnataka"]}
-          initVal={0}
-          varient="form"
-        />
-        <Select
-          options={["District", "Kottayam", "Kochi", "Kollam", "Malappuram"]}
-          initVal={0}
-          varient="form"
-        />
-      </div>
-      <div className="col-end-3 flex flex-row-reverse">
-        <Button
-          onClick={handleToggle(setFormState)}
-          id="next_btn"
-          icon={<FaAngleRight />}
-          classNames="h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]"
-        />
-      </div>
-    </div>,
+  const newFormProps1 = { className: "grid grid-cols-2 gap-x-10" };
+  const Div = ({ children, className }) => (
+    <div className={className}>{children}</div>
+  );
+
+  const newFormInput1 = [
+    {
+      Element: TextInput,
+      name: "firstName",
+      props: {
+        text: "First Name",
+        id: "first-name",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "lastName",
+      props: {
+        text: "Last Name",
+        id: "last-name",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "dob",
+      props: {
+        text: "Date Of Birth",
+        id: "date-of-birth",
+        varient: "date",
+        startYear: "1900",
+        endYear: new Date().getFullYear(),
+      },
+    },
+    {
+      Element: TextInput,
+      name: "phoneNum",
+      props: {
+        text: "Phone Number",
+        id: "phone-number",
+      },
+    },
+    {
+      Element: Select,
+      name: "gender",
+      props: {
+        options: ["Gender", "Male", "Female", "Other"],
+        initVal: 0,
+        varient: "form",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "emergencyNum",
+      props: {
+        text: "Emergency Number",
+        id: "emergency-num",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "address",
+      props: {
+        text: "Address",
+        id: "address",
+      },
+    },
+    {
+      Element: Div,
+      props: { className: "flex flex-row gap-x-10" },
+      children: [
+        {
+          Element: Select,
+          name: "state",
+          props: {
+            options: ["State", "Kerala", "Tamil Nadu", "Karnataka"],
+            initVal: 0,
+            varient: "form",
+          },
+        },
+        {
+          Element: Select,
+          name: "district",
+          props: {
+            options: ["District", "Kottayam", "Kochi", "Kollam", "Malappuram"],
+            initVal: 0,
+            varient: "form",
+          },
+        },
+      ],
+    },
+    {
+      Element: Div,
+      props: { className: "col-end-3 flex flex-row-reverse" },
+      children: [
+        {
+          isInForm: false,
+          Element: Button,
+          name: "nextBtn",
+          props: {
+            onClick: handleToggle(setFormState),
+            id: "next_btn",
+            icon: <FaAngleRight />,
+            classNames:
+              "h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]",
+          },
+        },
+      ],
+    },
   ];
 
-  const formInputs2 = [
-    <TextInput text="Email" id="email" name="email" wrapperClassNames="" />,
-    <TextInput text="Password" id="password" name="password" type="password" />,
-    <TextInput
-      text="Confirm Password"
-      id="cpassword"
-      name="cpassword"
-      type="password"
-    />,
-    <div className="col-end-3 flex flex-row justify-between">
-      <Button
-        id="back_btn"
-        onClick={handleToggle(setFormState)}
-        icon={<FaAngleLeft />}
-        classNames="h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]"
-      />
-      <Button
-        id="complete_btn"
-        onClick={handleToggle(setFormState)}
-        icon={<FaCheck />}
-        classNames="h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]"
-      />
-    </div>,
+  const newFormInput2 = [
+    {
+      Element: TextInput,
+      name: "email",
+      props: {
+        text: "Email",
+        id: "email",
+        type: "email",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "password",
+      props: {
+        text: "Password",
+        id: "password",
+        type: "password",
+      },
+    },
+    {
+      Element: TextInput,
+      name: "confirmPassword",
+      props: {
+        text: "Confirm Password",
+        id: "confirm-password",
+        type: "password",
+      },
+    },
+    {
+      Element: Div,
+      props: { className: "col-end-3 flex flex-row justify-between" },
+      children: [
+        {
+          isInForm: false,
+          Element: Button,
+          name: "backBtn",
+          props: {
+            id: "back_btn",
+            onClick: handleToggle(setFormState),
+            icon: <FaAngleLeft />,
+            classNames:
+              "h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]",
+          },
+        },
+        {
+          isInForm: false,
+          Element: Button,
+          name: "completeBtn",
+          props: {
+            id: "complete_btn",
+            icon: <FaCheck />,
+            classNames:
+              "h-16 w-16 text-2xl flex justify-center items-center rounded-[100px]",
+          },
+        },
+      ],
+    },
   ];
 
   return (
     <Card classNames="mx-[30px] mt-[10px] p-[30px] w-3/4">
       {formState ? (
-        <Form formInputs={formInputs2} classNames="mt-10" />
+        <Form formInputs={newFormInput2} />
       ) : (
-        <Form formInputs={formInputs1} classNames="mt-10" />
+        <Form formInputs={newFormInput1} formProps={newFormProps1} />
       )}
     </Card>
   );
