@@ -6,6 +6,8 @@ import { StyledListBoxButton, Wrapper, MenuWrapper } from "./Styles";
 function Select({
   options,
   selected,
+  onChange = () => {},
+  value = "",
   varient,
   setSelected,
   wrapperClassNames,
@@ -15,6 +17,7 @@ function Select({
     const index = options.indexOf(value);
     if (selected && setSelected) setSelected(index);
     else setDefaultSelected(index);
+    onChange(value);
   };
 
   const [defaultSelected, setDefaultSelected] = useState(0);

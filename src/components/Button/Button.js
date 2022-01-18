@@ -11,6 +11,7 @@ function Button({
   disabled,
   isCustom,
   ref,
+  type,
 }) {
   return (
     <div className={wrapperClassNames}>
@@ -21,6 +22,7 @@ function Button({
         isCustom={isCustom}
         id={id}
         onClick={onClick}
+        type={type}
       >
         {icon ? <span>{icon}</span> : null}
         {text ? <span>{text}</span> : null}

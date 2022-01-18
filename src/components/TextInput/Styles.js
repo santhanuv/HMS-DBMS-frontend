@@ -2,8 +2,14 @@ import tw from "twin.macro";
 
 const StyledTextInput = tw.input`appearance-none
 border-0 w-full h-full font-montserrat text-xl py-[22px] pl-[50px] bg-white
-rounded-[10px] placeholder:text-primaryGrey ring-2 ring-lightGrey
+rounded-[10px] placeholder:text-primaryGrey ring-2
 `;
+
+const StyledInputClassNames = (
+  inTable
+) => `peer outline-none focus:outline-none 
+focus:border-transparent focus:ring-primaryBlue placeholder-remove-focus 
+${inTable ? `ring-primaryBlue` : `ring-lightGrey`}`;
 
 const StyledTextArea = tw.textarea`appearance-none
 border-0 w-full h-full font-montserrat text-xl py-[22px] pl-[50px] bg-white
@@ -29,4 +35,5 @@ export {
   CalenderButton,
   DateWrapper,
   StyledTextArea,
+  StyledInputClassNames,
 };

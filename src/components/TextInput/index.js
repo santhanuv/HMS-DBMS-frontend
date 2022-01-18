@@ -1,2 +1,2 @@
-import TextInput from "./TextInput";
-export default TextInput;
+import TextField from "./TextField";
+export default TextField;

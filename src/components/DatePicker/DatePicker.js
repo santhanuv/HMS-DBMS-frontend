@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { takeMonths } from "../../utils/dates";
 import { WeekWrapper, Week, WeekName, SelectorWrapper } from "./Styles";
-import { format, isSameDay, isSameMonth, getYear, startOfDay } from "date-fns";
+import { isSameDay, isSameMonth, getYear, startOfDay } from "date-fns";
+import format from "date-fns/format";
 import Select from "../Select/Select";
 
 const Weeks = ({ monthIndex, onClick, selected, varient, selectedYear }) => {
@@ -41,13 +42,16 @@ const Weeks = ({ monthIndex, onClick, selected, varient, selectedYear }) => {
 
   return (
     <WeekWrapper>
-      {weekNames.map((name) => (
-        <WeekName varient={varient}>{name}</WeekName>
+      {weekNames.map((name, index) => (
+        <WeekName key={index} varient={varient}>
+          {name}
+        </WeekName>
       ))}
-      {month.map((week) => {
+      {month.map((week, index) => {
         return week.map((day) => {
           return (
             <Week
+              key={`${selectedYear}-${month}-${week}-${day}`}
               varient={varient}
               disabled={isDisabled(month, day)}
               className={`${getWeekClasses(month, day)} ${getCurrentDayClasses(
@@ -65,19 +69,39 @@ const Weeks = ({ monthIndex, onClick, selected, varient, selectedYear }) => {
   );
 };
 
-function DatePicker({ varient = "default", selectedDate, setSelectedDate }) {
-  const getYearList = (selectedDate, length = 21) => {
-    const selectedYear =
-      selectedDate === null
-        ? getYear(startOfDay(new Date()))
-        : getYear(startOfDay(selectedDate));
+function DatePicker({
+  varient = "default",
+  selectedDate,
+  setSelectedDate = () => {},
+  startYear,
+  endYear,
+}) {
+  const getSelectedYear = (selectedDate) => {
+    if (selectedDate && typeof selectedDate !== String)
+      return getYear(startOfDay(selectedDate));
+    else {
+      return getYear(startOfDay(new Date()));
+    }
+  };
 
+  const getSelectedMonth = (selectedDate) => {
+    if (!selectedDate) selectedDate = new Date();
+    return selectedDate.getMonth();
+  };
+
+  const getYearList = (selectedYear, startYear, endYear, length = 21) => {
     const currentYear = getYear(startOfDay(new Date()));
     const pivot = Math.floor(length / 2);
 
-    const years = [...Array(length)].map(
-      (_, index) => currentYear - pivot + index
-    );
+    startYear = startYear ? startYear : currentYear - pivot;
+    endYear = endYear ? endYear : currentYear + pivot;
+
+    const years = [];
+
+    for (let i = startYear; i <= endYear; i++) {
+      years.push(i);
+    }
+
     let selected = years.indexOf(selectedYear);
     selected = selected === -1 ? 10 : selected;
     return { yearList: years, selected: selected };
@@ -98,27 +122,26 @@ function DatePicker({ varient = "default", selectedDate, setSelectedDate }) {
     "Dec",
   ];
 
-  const yearListObj = getYearList(selectedDate);
+  const yearListObj = getYearList(
+    getSelectedYear(selectedDate),
+    startYear,
+    endYear
+  );
   const yearList = yearListObj.yearList;
 
-  const getSelectedMonth = () => {
-    if (!selectedDate) selectedDate = new Date();
-    return selectedDate.getMonth();
-  };
+  const [selectedYear, setSelectedYear] = useState(yearListObj.selected);
+  const [month, setMonth] = useState(getSelectedMonth(selectedDate));
+
+  useEffect(() => {
+    setSelectedYear(yearListObj.selected);
+    setMonth(getSelectedMonth(selectedDate));
+  }, [selectedDate]);
 
   const changeSelectedDate = (month) => (e) => {
     const day = e.currentTarget.id;
     const newDate = new Date(yearList[selectedYear], month, day);
     setSelectedDate(newDate);
   };
-
-  const [selectedYear, setSelectedYear] = useState(0);
-  const [month, setMonth] = useState(0);
-
-  useEffect(() => {
-    setSelectedYear(yearListObj.selected);
-    setMonth(getSelectedMonth());
-  }, [selectedDate]);
 
   return (
     <>
