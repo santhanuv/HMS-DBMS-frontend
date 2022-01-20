@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MainHeading from "../../components/MainHeading";
 import Selector from "../../components/Selector.Login";
 import TextInput from "../../components/TextInput";
-import Form from "../../components/Form";
+import LoginForm from "./LoginForm";
 import CheckBox from "../../components/CheckBox";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
@@ -16,32 +16,6 @@ function Login() {
     { text: "Doctor", id: "selector_btn_1" },
   ];
 
-  const formInputs = [
-    <TextInput text="Email" id="id_email" name="email" />,
-    <TextInput text="Password" id="id_password" name="password" />,
-    <div className="flex flex-row justify-between">
-      <CheckBox
-        text="Remember Password"
-        id="id_rempass"
-        name="remPass"
-        value="rememberPassword"
-        wrapperClassNames="mb-10"
-      />
-      <Link to="/" wrapperClassNames="flex flex-row-reverse mb-10 font-medium">
-        Forget?
-      </Link>
-    </div>,
-    <Button classNames="rounded-[15px] h-20 w-full text-3xl" text="LOGIN" />,
-    patientSelected ? (
-      <Link
-        to="/register"
-        wrapperClassNames="flex flex-row-reverse mt-10 font-bold"
-      >
-        Register
-      </Link>
-    ) : null,
-  ];
-
   const handleSlectorClick = (e) => {
     e.preventDefault();
     if (e.currentTarget.id !== `selector_btn_${patientSelected ? "0" : "1"}`)
@@ -50,31 +24,39 @@ function Login() {
 
   return (
     <>
-      <div className="flex flex-column flex-wrap">
-        <div className="bg-secondBlue text-white p-20 h-screen flex flex-col basis-1/2 flex-auto">
-          <h1 className="font-montserrat font-bold text-7xl text-center text-primaryBlue">
+      <div className="flex justify-end flex-wrap relative w-full relative bg-secondBlue">
+        <div
+          className="w-1/2 flex flex-col items-center justify-center bg-secondBlue 
+        absolute top-0 left-0 fixed h-screen gap-[15px]"
+        >
+          <h1 className=" font-montserrat font-bold text-7xl text-center text-primaryBlue">
             WELCOME TO
             <br />
             MEDICARE
           </h1>
-          <p className="font-montserrat text-primaryGrey text-xl text-center mt-[30px]">
-            We care about your health <br /> more than you
+          <p className="font-montserrat text-primaryGrey font-medium text-xl text-center">
+            We challenge the limits of traditional
+            <br />
+            healthcare with innovative self-care solutions
           </p>
           <img src={mainImage} />
         </div>
-        <div className="bg-white h-screen px-24 pt-[50px] flex flex-col w-full basis-1/2 flex-auto">
-          <MainHeading classNames="text-center m-[10px] text-primaryGrey">
+        <div className="z-[1] w-1/2 bg-white px-[80px] py-[60px]">
+          <MainHeading classNames="text-center text-primaryGrey">
             LOGIN
           </MainHeading>
-          <Card classNames="px-[50px] py-[30px] mt-[50px]">
+          <Card classNames="p-[50px]">
             <Selector
               selected={patientSelected}
               btnInfo={selectorBtnInfo}
               onClick={handleSlectorClick}
             />
-            <form className="mt-[80px]">
-              <Form formInputs={formInputs} classNames="mt-20" />
-            </form>
+            <div className="">
+              <LoginForm
+                className="mt-[50px]"
+                patientSelected={patientSelected}
+              />
+            </div>
           </Card>
         </div>
       </div>

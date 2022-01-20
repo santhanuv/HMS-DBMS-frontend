@@ -58,7 +58,7 @@ const useForm = (initValue = {}, schema) => {
 
   const register = (name) => {
     initValue[name] = "";
-    return { name, value: formData[name], onChange };
+    return { name, value: formData[name], onChange, errMsg: errors[name] };
   };
 
   return { register, onSubmit, errors, formData, onChange };
