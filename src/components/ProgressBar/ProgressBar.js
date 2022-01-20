@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Circle, Line, CTWrapper, Text, Wrapper } from "./Styles";
 import { FaCheck } from "react-icons/fa";
 
@@ -9,7 +9,7 @@ const getStructure = (textList, completedTill) => {
         let hasCompleted = index < completedTill;
         let lineComplete = index - 1 < completedTill;
         return (
-          <>
+          <Fragment key={index}>
             {index === 0 ? (
               <CTWrapper>
                 <Circle {...{ hasCompleted, lineComplete }}>
@@ -28,7 +28,7 @@ const getStructure = (textList, completedTill) => {
                 </CTWrapper>
               </>
             )}
-          </>
+          </Fragment>
         );
       })}
     </>

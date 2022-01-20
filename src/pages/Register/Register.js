@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import MainHeading from "../../components/MainHeading";
 import ProgressBar from "../../components/ProgressBar";
-import FormInput from "./FormInput";
+import RegisterForm from "./RegisterForm";
 
 function Register() {
   const [formState, setFormState] = useState(false);
-
-  const [formValues, setFormValues] = useState([]);
 
   return (
     <div className="flex flex-row relative">
@@ -26,7 +24,7 @@ function Register() {
         <MainHeading classNames="mt-[80px] mb-[50px] text-primaryGrey">
           {formState ? "LOGIN CREDENTIALS" : "PERSONAL INFORMATION"}
         </MainHeading>
-        <FormInput formState={formState} setFormState={setFormState} />
+        <RegisterForm formState={formState} setFormState={setFormState} />
       </div>
     </div>
   );

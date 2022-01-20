@@ -1,5 +1,12 @@
 import React from "react";
-import { StyledTextArea, Label, Wrapper } from "./Styles";
+import {
+  StyledTextArea,
+  Label,
+  Wrapper,
+  StyledInputClassNames,
+  Error,
+} from "./Styles";
+import { BiErrorCircle } from "react-icons/bi";
 
 function TextAreaField({
   name,
@@ -7,22 +14,27 @@ function TextAreaField({
   text,
   value,
   onChange,
-  type = "text",
   wrapperClassName,
   className,
+  errMsg,
 }) {
   return (
-    <Wrapper>
+    <Wrapper className={`${wrapperClassName}`}>
       <StyledTextArea
-        type={type}
+        type="text"
         id={id}
         name={name}
         placeholder={text}
         value={value}
         onChange={onChange}
-        className={`${StyledInputClassNames} ${className}`}
+        // StyledInputClassNames first argument tells that the textArea is not in Table
+        className={`${StyledInputClassNames(false)} ${className}`}
       />
       <Label htmlFor={id}>{text}</Label>
+      <Error>
+        {errMsg && <BiErrorCircle className="text-xl" />}
+        {errMsg}
+      </Error>
     </Wrapper>
   );
 }

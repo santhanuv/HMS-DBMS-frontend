@@ -6,11 +6,13 @@ import {
   CalenderButton,
   DateWrapper,
   StyledInputClassNames,
+  Error,
 } from "./Styles";
 import { BsFillCalendarPlusFill } from "react-icons/bs";
 import DatePicker from "../DatePicker/DatePicker";
-import { isMatch, parse, isValid } from "date-fns";
+import { isValid } from "date-fns";
 import format from "date-fns/format";
+import { BiErrorCircle } from "react-icons/bi";
 
 function DateFeild({
   name,
@@ -22,9 +24,9 @@ function DateFeild({
   className,
   startYear,
   endYear,
+  errMsg,
 }) {
   const [pickerVisible, setPickerVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
   const inputRef = useRef();
   const datePickerRef = useRef();
 
@@ -46,30 +48,29 @@ function DateFeild({
     };
   }, [inputRef, datePickerRef]);
 
+  // Custom fuction to parse date Because parse in date-fns maths year with 2-digits
+  function parseDate(string) {
+    if (typeof string !== "string") return;
+    const match = string.match(
+      /^([0-2][0-9]|3[0-1])\/(0[0-9]|1[0-2])\/(\d{4})$/
+    );
+    return match ? new Date(match[3], match[2] - 1, match[1]) : null;
+  }
+
   const dateToString = (date) => {
-    return format(date, "MM/dd/yyyy");
+    if (typeof date === "string") return date;
+    if (isValid(date)) return format(date, "dd/MM/yyyy");
+
+    const parsedDate = parseDate(date);
+    if (!parsedDate) return date;
+    else return format(date, "dd/MM/yyyy");
   };
 
   const stringToDate = (string) => {
-    const date = parse(string, "MM/dd/yyyy", new Date());
-    if (isValid(date)) {
-      string = format(date, "MM/dd/yyyy");
-      const [month, day, year] = string.split("/");
-      return new Date(year, month - 1, day);
-    } else {
-      return null;
-    }
+    const date = parseDate(string);
+    if (isValid(date)) return date;
+    else return string;
   };
-
-  // const selectDateOnEnter = (e) => {
-  //   if (e.key === "Enter") {
-  //     const string = e.currentTarget.value;
-  //     if (isMatch(parse(string, "MM/dd/yyyy", new Date()), "MM/dd/yyyy")) {
-  //       const date = stringToDate(string);
-  //       onChange(string);
-  //     }
-  //   }
-  // };
 
   return (
     <Wrapper className={`${wrapperClassName}`}>
@@ -77,12 +78,14 @@ function DateFeild({
         name={name}
         id={id}
         placeholder={text}
-        value={value}
+        value={dateToString(value)}
         ref={inputRef}
         onFocus={() => setPickerVisible(true)}
-        onChange={(e) => onChange(e.currentTarget.value)}
-        // onKeyDown={selectDateOnEnter}
-        className={`${StyledInputClassNames} ${className}`}
+        onChange={(e) =>
+          onChange({ name, value: stringToDate(e.currentTarget.value) })
+        }
+        // StyledInputClassNames takes a param inTable which shows the text field is in the table or not
+        className={`${StyledInputClassNames(false)} ${className}`}
       />
       <Label htmlFor={id}>{text}</Label>
       <CalenderButton disabled={true}>
@@ -92,13 +95,17 @@ function DateFeild({
         <DateWrapper ref={datePickerRef}>
           <DatePicker
             varient="popup"
-            selectedDate={stringToDate(value)}
-            setSelectedDate={(date) => onChange(dateToString(date))}
+            selectedDate={typeof value === "string" ? null : value}
+            setSelectedDate={(date) => onChange({ name, value: date })}
             startYear={startYear}
             endYear={endYear}
           />
         </DateWrapper>
       )}
+      <Error>
+        {errMsg && <BiErrorCircle className="text-xl" />}
+        {errMsg}
+      </Error>
     </Wrapper>
   );
 }
