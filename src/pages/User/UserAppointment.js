@@ -12,6 +12,7 @@ import Form from "../../components/Form";
 import DatePicker from "../../components/DatePicker";
 import CardSlider from "../../components/CardSlider";
 import CardButton from "../../components/CardButton";
+import AppointmentForm from "./AppointmentForm";
 
 const docList = ["Doctor", "Doctor1", "Doctor2", "Doctor3"];
 
@@ -76,9 +77,7 @@ const remove = () => {
 
 function UserAppointment() {
   const [addCardVisible, setAddCardVisible] = useState(false);
-
   const [datePickerValue, setDatePickerValue] = useState(new Date());
-
   const addCardRef = useRef(null);
 
   const handleExitCard = (e) => {
@@ -181,8 +180,9 @@ function UserAppointment() {
           </Card>
           <div className="basis-5/12">
             <CardSlider cap={3} varient={1}>
-              {userAppointments.map((appointment) => (
+              {userAppointments.map((appointment, index) => (
                 <CardButton
+                  key={index}
                   text={
                     <div className="flex flex-col gap-[2px]">
                       <h1 className="font-montserrat font-bold text-2xl">
@@ -232,7 +232,7 @@ function UserAppointment() {
               <h1 className="font-montserrat font-bold text-3xl mb-[30px] text-primaryGrey">
                 Add Appointment
               </h1>
-              <Form formInputs={formInputs} />
+              <AppointmentForm />
             </div>
           </Card>
         </div>

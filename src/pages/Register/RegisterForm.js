@@ -4,7 +4,7 @@ import Select from "../../components/Select";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import { FaAngleRight, FaAngleLeft, FaCheck } from "react-icons/fa";
-import formSchema from "./formSchema";
+import registerSchema from "./registerSchema";
 import useForm from "../../hooks/useForm";
 import DateField from "../../components/TextInput/DateFeild";
 import TextAreaField from "../../components/TextInput/TextAreaField";
@@ -25,7 +25,10 @@ const initialFormState = {
 };
 
 function RegisterForm({ formState, setFormState }) {
-  const { register, onSubmit, errors } = useForm(initialFormState, formSchema);
+  const { register, onSubmit, errors } = useForm(
+    initialFormState,
+    registerSchema
+  );
 
   const TextFieldClassName = `h-[70px]`;
   const GenderOptions = ["Gender", "Male", "Female", "Other"];
@@ -69,14 +72,12 @@ function RegisterForm({ formState, setFormState }) {
               text="First Name"
               id="firstName"
               {...register("firstName")}
-              errMsg={errors.firstName}
               className={TextFieldClassName}
             />
             <TextField
               text="Last Name"
               id="lastName"
               {...register("lastName")}
-              errMsg={errors.lastName}
               className={TextFieldClassName}
             />
             <DateField
@@ -85,49 +86,42 @@ function RegisterForm({ formState, setFormState }) {
               startYear="1900"
               endYear={new Date().getFullYear()}
               {...register("dob")}
-              errMsg={errors.dob}
               className={TextFieldClassName}
             />
             <TextField
               text="Phone Number"
               id="phoneNumber"
               {...register("phoneNumber")}
-              errMsg={errors.phoneNumber}
               className={TextFieldClassName}
             />
             <Select
               options={GenderOptions}
               varient="form"
               {...register("gender")}
-              errMsg={errors.gender}
               btnClassName={`h-[70px]`}
             />
             <TextField
               text="Emergency Number"
               id="emergencyNumber"
               {...register("emergencyNumber")}
-              errMsg={errors.emergencyNumber}
               className={TextFieldClassName}
             />
             <Select
               options={stateOptions}
               varient="form"
               {...register("state")}
-              errMsg={errors.state}
               btnClassName={`h-[70px]`}
             />
             <Select
               options={districtOptions}
               varient="form"
               {...register("district")}
-              errMsg={errors.district}
               btnClassName={`h-[70px]`}
             />
             <TextAreaField
               text="Address"
               id="address"
               {...register("address")}
-              errMsg={errors.address}
               className={TextFieldClassName}
               wrapperClassName={`col-span-2`}
             />
@@ -147,7 +141,6 @@ function RegisterForm({ formState, setFormState }) {
               id="email"
               type="text"
               {...register("email")}
-              errMsg={errors.email}
               className={TextFieldClassName}
             />
             <TextField
@@ -155,7 +148,6 @@ function RegisterForm({ formState, setFormState }) {
               id="password"
               type="password"
               {...register("password")}
-              errMsg={errors.password}
               className={TextFieldClassName}
             />
             <TextField
@@ -163,7 +155,6 @@ function RegisterForm({ formState, setFormState }) {
               id="confirmPassword"
               type="password"
               {...register("confirmPassword")}
-              errMsg={errors.confirmPassword}
               className={TextFieldClassName}
             />
             <div className="col-end-3 flex flex-row justify-between">

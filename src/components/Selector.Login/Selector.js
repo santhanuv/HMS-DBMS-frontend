@@ -6,7 +6,7 @@ function Selector({ btnInfo, onClick, selected }) {
   // Twin doesn't support tailwind ver. 3.x
 
   return (
-    <div className="w-full gap-0 columns-2 h-12 mt-20">
+    <div className="w-full gap-0 columns-2 h-12 mt-[10px]">
       <div>
         <Button
           id={btnInfo[0].id}

@@ -22,9 +22,9 @@ function SideBar({ items, initSelect = "0" }) {
   const createButtonList = (items, openState, selected) => {
     return (
       <>
-        {items.map((item) => {
+        {items.map((item, index) => {
           return (
-            <Link to={item.path}>
+            <Link to={item.path} key={index}>
               <Button
                 text={openState ? item.text : null}
                 icon={item.icon}

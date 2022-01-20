@@ -86,8 +86,9 @@ function UserDashboard() {
             Reports
           </h1>
           <CardSlider cap={3} varient={1}>
-            {reportList.map((report) => (
+            {reportList.map((report, index) => (
               <CardButton
+                key={index}
                 text={report.text}
                 icon={<BsFileMedicalFill className="text-5xl" />}
                 btnIcon={<BsFileArrowDownFill className="text-5xl" />}
@@ -102,9 +103,9 @@ function UserDashboard() {
             Recent Bills
           </h1>
           <CardSlider varient={1}>
-            {billList.map((bill) => {
+            {billList.map((bill, index) => {
               const billInfoList = createBillInfoList(bill);
-              return <InfoCard infoList={billInfoList} />;
+              return <InfoCard key={index} infoList={billInfoList} />;
             })}
           </CardSlider>
         </div>
@@ -113,9 +114,9 @@ function UserDashboard() {
             Current Rooms
           </h1>
           <CardSlider varient={1}>
-            {roomList.map((room) => {
+            {roomList.map((room, index) => {
               const roomInfoList = createRoomInfoList(room);
-              return <InfoCard infoList={roomInfoList} />;
+              return <InfoCard key={index} infoList={roomInfoList} />;
             })}
           </CardSlider>
         </div>

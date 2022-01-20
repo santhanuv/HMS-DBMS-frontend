@@ -125,10 +125,10 @@ function UserPayments() {
           Pending Bills
         </h1>
         <CardSlider cap="2">
-          {billList.map((bill) => {
+          {billList.map((bill, index) => {
             const billInfoList = createBillInfoList(bill);
             return (
-              <div className="flex">
+              <div className="flex" key={index}>
                 <InfoCard
                   infoList={billInfoList}
                   hasBr={false}

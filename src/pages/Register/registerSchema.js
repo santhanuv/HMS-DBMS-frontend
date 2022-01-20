@@ -7,7 +7,7 @@ yup.addMethod(yup.string, "integer", function (message) {
 
 const minAgeYear = 13;
 
-const formSchema = yup.object().shape({
+const registerSchema = yup.object().shape({
   firstName: yup
     .string()
     .required("First Name is Required")
@@ -52,4 +52,4 @@ const formSchema = yup.object().shape({
     .required("Confirm Password is required"),
 });
 
-export default formSchema;
+export default registerSchema;
