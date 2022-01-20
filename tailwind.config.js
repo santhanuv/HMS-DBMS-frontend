@@ -12,6 +12,7 @@ module.exports = {
       badgePending: "#FA8F61",
       badgeTextSuccess: "#6E9F78",
       badgeTextPending: "#DDB990",
+      errorRed: "#fe2712",
     },
     borderRadius: {
       "30p": "30px",

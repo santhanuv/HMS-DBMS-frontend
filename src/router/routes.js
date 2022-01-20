@@ -1,5 +1,3 @@
-import Form from "../pages/Form";
-
 import { Navigate } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
@@ -79,10 +77,6 @@ const routes = [
         element: <DoctorPrescribe />,
       },
     ],
-  },
-  {
-    path: "/form",
-    element: <Form />,
   },
 ];
 

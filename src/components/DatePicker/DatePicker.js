@@ -77,9 +77,9 @@ function DatePicker({
   endYear,
 }) {
   const getSelectedYear = (selectedDate) => {
-    if (selectedDate && typeof selectedDate !== String)
+    if (selectedDate && typeof selectedDate !== String) {
       return getYear(startOfDay(selectedDate));
-    else {
+    } else {
       return getYear(startOfDay(new Date()));
     }
   };
@@ -138,6 +138,7 @@ function DatePicker({
   }, [selectedDate]);
 
   const changeSelectedDate = (month) => (e) => {
+    e.preventDefault();
     const day = e.currentTarget.id;
     const newDate = new Date(yearList[selectedYear], month, day);
     setSelectedDate(newDate);
@@ -149,14 +150,14 @@ function DatePicker({
         <div>
           <Select
             options={monthNames}
-            selected={month}
-            setSelected={setMonth}
+            value={monthNames[month]}
+            onChange={({ value }) => setMonth(monthNames.indexOf(value))}
           />
         </div>
         <Select
           options={yearList}
-          selected={selectedYear}
-          setSelected={setSelectedYear}
+          value={yearList[selectedYear]}
+          onChange={({ value }) => setSelectedYear(yearList.indexOf(value))}
         />
       </SelectorWrapper>
       <Weeks
