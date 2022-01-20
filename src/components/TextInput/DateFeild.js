@@ -25,6 +25,7 @@ function DateFeild({
   startYear,
   endYear,
   errMsg,
+  isTop, // To position datepicker at the top or bottom
 }) {
   const [pickerVisible, setPickerVisible] = useState(false);
   const inputRef = useRef();
@@ -92,7 +93,7 @@ function DateFeild({
         <BsFillCalendarPlusFill />
       </CalenderButton>
       {pickerVisible && (
-        <DateWrapper ref={datePickerRef}>
+        <DateWrapper ref={datePickerRef} {...{ isTop }}>
           <DatePicker
             varient="popup"
             selectedDate={typeof value === "string" ? null : value}

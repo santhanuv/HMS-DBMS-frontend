@@ -15,6 +15,7 @@ const Select = forwardRef(
       wrapperClassName,
       btnClassName,
       errMsg,
+      disableFirst = true,
     },
     ref
   ) => {
@@ -54,7 +55,12 @@ const Select = forwardRef(
                       <Listbox.Option
                         key={index}
                         value={itemName}
-                        disabled={varient === "form" && index === 0 && true}
+                        disabled={
+                          varient === "form" &&
+                          disableFirst &&
+                          index === 0 &&
+                          true
+                        }
                       >
                         {({ active, selected, disabled }) => (
                           <div

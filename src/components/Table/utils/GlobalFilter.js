@@ -4,7 +4,7 @@ import TextInput from "../../TextInput";
 import TextField from "../../TextInput/TextField";
 import tw from "twin.macro";
 
-function GlobalFilter({ globalFilter, setGlobalFilter }) {
+function GlobalFilter({ globalFilter = "", setGlobalFilter }) {
   const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);

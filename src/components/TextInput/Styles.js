@@ -1,4 +1,4 @@
-import tw from "twin.macro";
+import tw, { styled } from "twin.macro";
 
 const StyledTextInput = tw.input`appearance-none
 border-0 w-full font-montserrat text-lg py-[22px] pl-[50px] bg-white
@@ -26,7 +26,12 @@ peer-focus:bg-white peer-focus:top-[-18px] peer-focus:left-[20px] peer-focus:tex
 duration-300 opacity-0 peer-focus:opacity-100 text-primaryBlue ease-in-out pointer-events-none`;
 
 const CalenderButton = tw.button`absolute right-[30px] top-[30px] text-xl text-primaryGrey pointer-events-none`;
-const DateWrapper = tw.div`absolute top-[90px] right-[0px] bg-white shadow-2xl rounded-[20px] p-[20px] z-[100]`;
+// const DateWrapper = tw.div`absolute top-[90px] right-[0px] bg-white shadow-2xl rounded-[20px] p-[20px] z-[100]`;
+
+const DateWrapper = styled.div(({ isTop = true }) => [
+  tw`absolute right-[0px] bg-white shadow-2xl rounded-[20px] p-[20px] z-[100]`,
+  isTop ? tw`top-[90px]` : tw`bottom-[90px]`,
+]);
 
 const Error = tw.div`text-errorRed m-[10px] flex gap-[5px] items-center`;
 
