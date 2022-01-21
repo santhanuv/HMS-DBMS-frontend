@@ -45,7 +45,7 @@ const useForm = (initValue = {}, schema) => {
     setFormData((prev) => ({ ...prev, [name]: value ? value : "" }));
   };
 
-  const onSubmit = async (e, callback) => {
+  const onSubmit = async (e, callback = () => {}) => {
     e.preventDefault();
     const errors = await validateFormData(schema, formData);
     setErrors(errors);
