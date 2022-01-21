@@ -6,26 +6,10 @@ import { FaEdit, FaWindowClose, FaAngleRight } from "react-icons/fa";
 import { BsCalendarPlusFill } from "react-icons/bs";
 import Card from "../../components/Card";
 import Wrapper from "../../components/Wrapper/Wrapper";
-import Select from "../../components/Select";
-import TextInput from "../../components/TextInput";
 import DatePicker from "../../components/DatePicker";
 import CardSlider from "../../components/CardSlider";
 import CardButton from "../../components/CardButton";
 import AppointmentForm from "./AppointmentForm";
-
-const docList = ["Doctor", "Doctor1", "Doctor2", "Doctor3"];
-
-const formInputs = [
-  <Select options={docList} text="Doctor" id="doc" varient="form" />,
-  <TextInput text="Date" varient="date" id="date" name="date" />,
-  <Button
-    text="ADD"
-    id="add_btn"
-    classNames="text-4xl p-7 w-full rounded-[10px]"
-  />,
-];
-
-const tableBody = [];
 
 // Creates mock data
 const remove = () => {
@@ -33,7 +17,7 @@ const remove = () => {
   for (let i = 0; i < 10; i++) {
     list.push({
       id: i,
-      doc_name: "Santhanu V",
+      doc_name: i === 4 ? "Naruto" : "Santhanu V",
       date: "25/01/2026",
       time: "10:00-11:00",
       price: "2500",

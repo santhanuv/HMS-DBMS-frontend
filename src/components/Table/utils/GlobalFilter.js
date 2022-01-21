@@ -13,7 +13,6 @@ function GlobalFilter({ globalFilter = "", setGlobalFilter }) {
   return (
     <div className="p-[20px] w-[500px]">
       <TextField
-        inTable={true}
         text="Search"
         name="SearchBar"
         value={value}
