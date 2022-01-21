@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { FaBars, FaAngleLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Button from "../Button";
 
 function SideBar({ items, initSelect = "0" }) {
   const notSlectedBtnClasses = "text-primaryGrey";
 
+  const location = useLocation();
+  const selectedPath = items.filter((item) => item.path === location.pathname);
+  const selectedId = selectedPath[0].id ? selectedPath[0].id : initSelect;
+
   const [openState, setOpenState] = useState(false);
-  const [selected, setSelected] = useState(initSelect); // Should give the selected id as a string
+  const [selected, setSelected] = useState(selectedId); // Should give the selected id as a string
 
   const toggleHandle = (e) => {
     if (e.currentTarget.id === "close_btn" && openState) setOpenState(false);
