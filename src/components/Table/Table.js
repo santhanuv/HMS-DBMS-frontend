@@ -25,7 +25,7 @@ function Table({ columns, data }) {
 
   return (
     <>
-      <div className="flex justify-center items-center bg-primaryBlue">
+      <div className="flex justify-center items-center bg-white">
         <GlobalFilter
           globalFilter={globalFilter}
           setGlobalFilter={setGlobalFilter}
@@ -55,6 +55,7 @@ function Table({ columns, data }) {
               ))}
             </tr>
           ))}
+          <tr></tr>
         </StyledTHead>
 
         <StyledTBody {...getTableBodyProps()}>
