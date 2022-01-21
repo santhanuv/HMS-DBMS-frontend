@@ -21,8 +21,7 @@ function GlobalFilter({ globalFilter = "", setGlobalFilter }) {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        wrapperClassName={`h-10`}
-        className={`focus: outline-none focus: border-none`}
+        className={`focus: outline-none focus: border-none h-[20px]`}
       />
     </div>
   );

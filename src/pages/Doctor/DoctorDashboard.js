@@ -61,11 +61,16 @@ function DoctorDashboard() {
         Dashboard
       </MainHeading>
       <div className="flex gap-[100px] justify-center">
-        {showCardList.map((showCard) => {
+        {showCardList.map((showCard, index) => {
           return (
-            <ShowCard icon={showCard.icon} classNames=" w-[300px] h-[200px]">
+            <ShowCard
+              key={index}
+              icon={showCard.icon}
+              classNames=" w-[300px] h-[200px]"
+            >
               {showCard.texts.map((text, index) => (
                 <h1
+                  key={index}
                   className={`${
                     index === 1 ? "text-2xl" : "text-xl"
                   } font-semibold text-primaryGrey`}
@@ -86,8 +91,9 @@ function DoctorDashboard() {
         </Card>
         <div className="basis-5/12">
           <CardSlider cap={3} varient={1}>
-            {docAppointments.map((appointment) => (
+            {docAppointments.map((appointment, index) => (
               <CardButton
+                key={index}
                 text={
                   <div className="flex flex-col gap-[2px]">
                     <h1 className="font-montserrat font-bold text-2xl">

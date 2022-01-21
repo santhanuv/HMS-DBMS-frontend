@@ -8,8 +8,8 @@ function ShowCard({ icon, children = [], classNames }) {
       <StyledShowCard>
         <span>{icon}</span>
         <div className="m-[5px]">
-          {children.map((child) => (
-            <span>{child}</span>
+          {children.map((child, index) => (
+            <span key={index}>{child}</span>
           ))}
         </div>
       </StyledShowCard>
