@@ -8,7 +8,6 @@ import Card from "../../components/Card";
 import Wrapper from "../../components/Wrapper/Wrapper";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
-import Form from "../../components/Form";
 import DatePicker from "../../components/DatePicker";
 import CardSlider from "../../components/CardSlider";
 import CardButton from "../../components/CardButton";

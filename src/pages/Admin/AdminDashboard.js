@@ -44,11 +44,16 @@ function AdminDashboard() {
         Dashboard
       </MainHeading>
       <div className="grid grid-cols-3 gap-[100px]">
-        {showCardList.map((showCard) => {
+        {showCardList.map((showCard, index) => {
           return (
-            <ShowCard icon={showCard.icon} classNames=" w-[400px] h-[300px]">
+            <ShowCard
+              key={index}
+              icon={showCard.icon}
+              classNames=" w-[400px] h-[300px]"
+            >
               {showCard.texts.map((text, index) => (
                 <h1
+                  key={index}
                   className={`${
                     index === 1 ? "text-4xl" : "text-xl"
                   } font-semibold text-primaryGrey`}
