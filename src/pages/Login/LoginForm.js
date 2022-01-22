@@ -45,7 +45,7 @@ function LoginForm({ className, patientSelected }) {
           Forget?
         </Link>
       </div>
-      <Button classNames="rounded-[15px] h-20 w-full text-2xl" text="LOGIN" />,
+      <Button classNames="rounded-[15px] h-20 w-full text-2xl" text="LOGIN" />
       {patientSelected ? (
         <Link
           to="/register"
