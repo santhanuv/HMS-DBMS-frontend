@@ -8,7 +8,8 @@ function SideBar({ items, initSelect = "0" }) {
 
   const location = useLocation();
   const selectedPath = items.filter((item) => item.path === location.pathname);
-  const selectedId = selectedPath[0].id ? selectedPath[0].id : initSelect;
+  const selectedId =
+    selectedPath[0] && selectedPath[0].id ? selectedPath[0].id : initSelect;
 
   const [openState, setOpenState] = useState(false);
   const [selected, setSelected] = useState(selectedId); // Should give the selected id as a string

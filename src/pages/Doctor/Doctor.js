@@ -2,23 +2,9 @@ import React, { useState } from "react";
 import SideBar from "../../components/SideBar";
 import { BsFillGridFill } from "react-icons/bs";
 import { FaRegCalendarPlus } from "react-icons/fa";
-import DoctorDashboard from "./DoctorDashboard";
-import DoctorAppointments from "./DoctorAppointments";
 import Notification from "../../components/Notification";
 import Avatar from "../../components/Avatar";
 import { Outlet } from "react-router-dom";
-
-const contentSelector = (selected) => {
-  switch (selected) {
-    case "0":
-      return <DoctorDashboard />;
-      break;
-
-    case "1":
-      return <DoctorAppointments />;
-      break;
-  }
-};
 
 const sideBarItems = [
   {
@@ -36,13 +22,6 @@ const sideBarItems = [
 ];
 
 function Doctor() {
-  const [selected, setSelected] = useState("0");
-  const [sideBarOpen, setSideBarOpen] = useState(true);
-
-  const onSideBarToggle = (state) => {
-    setSideBarOpen(state);
-  };
-
   return (
     <div className="bg-white">
       <div className="h-screen fixed h-screen block top-0 left-0 z-[1]">

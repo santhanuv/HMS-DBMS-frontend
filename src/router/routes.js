@@ -74,7 +74,7 @@ const routes = [
       },
       {
         path: "prescribe",
-        element: <DoctorPrescribe />,
+        element: <DoctorPrescribe />, // Have to make the prescribe appear at /doctor/appointments/:id/prescribe
       },
     ],
   },
