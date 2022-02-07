@@ -1,5 +1,5 @@
 import tw from "twin.macro";
 
-const StyledAvatar = tw.button`flex justify-center items-center gap-[10px]`;
+const StyledAvatar = tw.div``;
 
 export default StyledAvatar;

@@ -9,7 +9,7 @@ import Badge from "../../components/Badge";
 import Table from "../../components/Table";
 import { FaAngleRight } from "react-icons/fa";
 
-function UserPayments() {
+function PatientPayments() {
   const columns = React.useMemo(
     () => [
       {
@@ -155,4 +155,4 @@ function UserPayments() {
   );
 }
 
-export default UserPayments;
+export default PatientPayments;

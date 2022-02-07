@@ -29,6 +29,7 @@ function LoginForm({ className, patientSelected }) {
         roles: response?.data?.roles,
       };
       setAuth(authData);
+      console.log("from");
       navigate(from, { replace: true });
       return true;
     } else {

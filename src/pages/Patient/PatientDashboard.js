@@ -7,7 +7,7 @@ import InfoCard from "../../components/InfoCard";
 import EmptyCard from "../../components/EmptyCard";
 import Wrapper from "../../components/Wrapper/Wrapper";
 
-function UserDashboard() {
+function PatientDashboard() {
   // Remove This
   const billList = [
     {
@@ -125,4 +125,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default PatientDashboard;

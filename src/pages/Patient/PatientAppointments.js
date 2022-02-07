@@ -58,7 +58,7 @@ const remove = () => {
 //   },
 // ]);
 
-function UserAppointment() {
+function PatientAppointments() {
   const [addCardVisible, setAddCardVisible] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState(new Date());
   const addCardRef = useRef(null);
@@ -224,4 +224,4 @@ function UserAppointment() {
   );
 }
 
-export default UserAppointment;
+export default PatientAppointments;

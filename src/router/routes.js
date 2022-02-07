@@ -1,111 +1,66 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import RequireAuth from "../components/RequireAuth";
 import PersistLogin from "../components/PersistLogin";
-import { Admin, AdminAddDoc, AdminDashboard } from "../pages/Admin";
+import { AdminAddDoc, AdminDashboard } from "../pages/Admin";
 import {
-  Doctor,
   DoctorAppointments,
   DoctorDashboard,
   DoctorPrescribe,
 } from "../pages/Doctor";
 import {
-  User,
-  UserDashboard,
-  UserAppointment,
-  UserPayments,
-} from "../pages/User";
+  PatientDashboard,
+  PatientAppointments,
+  PatientPayments,
+} from "../pages/Patient";
 
-const Roles = {
-  admin: "Admin",
-  patient: "Patient",
-  doctor: "Doctor",
+import User from "../pages/User";
+import Roles from "./allowedRoles";
+
+const CustomRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate replace to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route element={<PersistLogin />}>
+        <Route element={<RequireAuth allowedRoles={[Roles.user.name]} />}>
+          {/* User Routes */}
+          <Route path="/user" element={<User />}>
+            {/* Patient Routes */}
+            <Route
+              element={<RequireAuth allowedRoles={[Roles.patient.name]} />}
+            >
+              <Route path="patient" element={<PatientDashboard />} />
+              <Route
+                path="patient/appointments"
+                element={<PatientAppointments />}
+              />
+              <Route path="patient/payments" element={<PatientPayments />} />
+            </Route>
+
+            {/* Doctor Routes */}
+            <Route element={<RequireAuth allowedRoles={[Roles.doctor.name]} />}>
+              <Route path="doctor" element={<DoctorDashboard />} />
+              <Route
+                path="doctor/appointments"
+                element={<DoctorAppointments />}
+              />
+              <Route path="doctor/prescribe" element={<DoctorPrescribe />} />
+            </Route>
+
+            {/*Admin Routes*/}
+            <Route element={<RequireAuth allowedRoles={[Roles.admin.name]} />}>
+              <Route path="admin" element={<AdminDashboard />} />
+              <Route path="admin/addDoc" element={<AdminAddDoc />} />
+            </Route>
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
+  );
 };
 
-const routes = [
-  {
-    path: "/",
-    element: <Navigate replace to="/login" />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    element: <PersistLogin />,
-    children: [
-      {
-        element: <RequireAuth allowedRoles={[Roles.admin]} />,
-        children: [
-          {
-            path: "/admin",
-            element: <Admin />,
-            children: [
-              {
-                path: "addDoc",
-                element: <AdminAddDoc />,
-              },
-              {
-                index: true,
-                element: <AdminDashboard />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        element: <RequireAuth allowedRoles={[Roles.patient]} />,
-        children: [
-          {
-            path: "/user",
-            element: <User />,
-            children: [
-              {
-                index: true,
-                element: <UserDashboard />,
-              },
-              {
-                path: "appointments",
-                element: <UserAppointment />,
-              },
-              {
-                path: "payments",
-                element: <UserPayments />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        element: <RequireAuth allowedRoles={[Roles.doctor]} />,
-        children: [
-          {
-            path: "/doctor",
-            element: <Doctor />,
-            children: [
-              {
-                index: true,
-                element: <DoctorDashboard />,
-              },
-              {
-                path: "appointments",
-                element: <DoctorAppointments />,
-              },
-              {
-                path: "prescribe",
-                element: <DoctorPrescribe />, // Have to make the prescribe appear at /doctor/appointments/:id/prescribe
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
-
-export default routes;
+export { CustomRoutes };

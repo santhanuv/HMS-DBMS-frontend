@@ -12,7 +12,6 @@ const createSession = async ({ email, password }) => {
       {
         headers: {
           "Content-Type": "application/json",
-          withCredentials: true,
         },
       }
     );
@@ -24,9 +23,7 @@ const createSession = async ({ email, password }) => {
 
 const refreshAccessToken = async () => {
   try {
-    const response = await axios.get(`${url}/refresh-token`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(`${url}/refresh-token`);
 
     return { response };
   } catch (err) {
@@ -34,4 +31,13 @@ const refreshAccessToken = async () => {
   }
 };
 
-export { createSession, refreshAccessToken };
+const deleteSession = async () => {
+  try {
+    const response = await axios.delete(`${url}`);
+    return { response };
+  } catch (err) {
+    return { err };
+  }
+};
+
+export { createSession, refreshAccessToken, deleteSession };
