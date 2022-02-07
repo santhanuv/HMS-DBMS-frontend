@@ -5,6 +5,9 @@ import TextField from "../../components/TextInput";
 import CheckBox from "../../components/CheckBox";
 import Link from "../../components/Link";
 import Button from "../../components/Button";
+import { createSession } from "../../api/session.api";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const initialFormState = {
   email: "",
@@ -13,6 +16,27 @@ const initialFormState = {
 };
 
 function LoginForm({ className, patientSelected }) {
+  const { setAuth } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || "/user";
+
+  const doAuth = async (data) => {
+    const response = await createSession(data);
+    if (response.data) {
+      const authData = {
+        accessToken: response?.data?.accessToken,
+        roles: response?.data?.roles,
+      };
+      setAuth(authData);
+      navigate(from, { replace: true });
+      return true;
+    } else {
+      console.log(response.err);
+      return false;
+    }
+  };
+
   const { register, onSubmit, formData } = useForm(
     initialFormState,
     loginSchema
@@ -23,7 +47,7 @@ function LoginForm({ className, patientSelected }) {
       className={`${className} flex flex-col gap-[30px]`}
       onSubmit={(e) => {
         formData.role = patientSelected ? "patient" : "staff";
-        onSubmit(e);
+        onSubmit(e, doAuth);
       }}
     >
       <TextField text="Email" id="email" {...register("email")} />

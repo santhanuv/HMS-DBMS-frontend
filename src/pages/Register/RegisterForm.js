@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "../../components/TextInput/TextField";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
@@ -8,6 +8,10 @@ import registerSchema from "./registerSchema";
 import useForm from "../../hooks/useForm";
 import DateField from "../../components/TextInput/DateFeild";
 import TextAreaField from "../../components/TextInput/TextAreaField";
+import { getDistricts } from "../../api/districts.api";
+import { getGenders } from "../../api/gender.api";
+import { registerPatient } from "../../api/patient.api";
+import { useNavigate } from "react-router-dom";
 
 const initialFormState = {
   firstName: "",
@@ -24,23 +28,61 @@ const initialFormState = {
   confirmPassword: "",
 };
 
+const registerationCallback = async (data) => {
+  const registerRes = await registerPatient(data);
+  if (registerRes.data) {
+    console.log(registerRes.data);
+    return true;
+  } else {
+    console.log("Error", registerRes.err);
+    return false;
+  }
+};
+
 function RegisterForm({ formState, setFormState }) {
-  const { register, onSubmit, errors } = useForm(
+  const navigate = useNavigate();
+
+  const [districts, setDistricts] = useState();
+  const [states, setStates] = useState();
+  const [genders, setGenders] = useState();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const districtRes = await getDistricts();
+      const genderRes = await getGenders();
+
+      if (genderRes.data) {
+        setGenders(genderRes.data);
+      } else {
+        console.log(genderRes.err);
+      }
+
+      if (districtRes.data) {
+        const states = Object.keys(districtRes.data);
+        const districts = districtRes.data;
+        setDistricts(districts);
+        setStates(states);
+      } else {
+        console.log(districtRes.err);
+      }
+    };
+
+    fetch();
+  }, []);
+
+  const { register, onSubmit, formData } = useForm(
     initialFormState,
     registerSchema
   );
 
-  const TextFieldClassName = `h-[70px]`;
-  const GenderOptions = ["Gender", "Male", "Female", "Other"];
-  const stateOptions = ["State", "Kerala", "Tamil Nadu", "Karnataka"];
-  const districtOptions = [
-    "District",
-    "Kottayam",
-    "Kochi",
-    "Kollam",
-    "Malappuram",
-  ];
+  const doRegister = async (e) => {
+    const status = await onSubmit(e, registerationCallback);
+    if (status) {
+      navigate("/login", { replace: true });
+    }
+  };
 
+  const TextFieldClassName = `h-[70px]`;
   const handleToggle = (setFormState) => (e) => {
     e.preventDefault();
     const id = e.currentTarget.id;
@@ -53,13 +95,15 @@ function RegisterForm({ formState, setFormState }) {
       case "back_btn":
         setFormState(false);
         break;
+      default:
+        break;
     }
   };
 
   return (
     <Card classNames="mx-[30px] mt-[10px] p-[30px] w-3/4">
       <form
-        onSubmit={onSubmit}
+        onSubmit={doRegister}
         className={
           !formState
             ? "grid grid-cols-2 gap-x-10 gap-y-[50px]"
@@ -95,7 +139,7 @@ function RegisterForm({ formState, setFormState }) {
               className={TextFieldClassName}
             />
             <Select
-              options={GenderOptions}
+              options={genders ? genders : []}
               varient="form"
               {...register("gender")}
               btnClassName={`h-[70px]`}
@@ -107,13 +151,13 @@ function RegisterForm({ formState, setFormState }) {
               className={TextFieldClassName}
             />
             <Select
-              options={stateOptions}
+              options={states ? states : []}
               varient="form"
               {...register("state")}
               btnClassName={`h-[70px]`}
             />
             <Select
-              options={districtOptions}
+              options={formData?.state ? districts[formData.state] : []}
               varient="form"
               {...register("district")}
               btnClassName={`h-[70px]`}

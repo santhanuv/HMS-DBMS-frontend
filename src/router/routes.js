@@ -1,6 +1,8 @@
 import { Navigate } from "react-router-dom";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import RequireAuth from "../components/RequireAuth";
+import PersistLogin from "../components/PersistLogin";
 import { Admin, AdminAddDoc, AdminDashboard } from "../pages/Admin";
 import {
   Doctor,
@@ -14,6 +16,12 @@ import {
   UserAppointment,
   UserPayments,
 } from "../pages/User";
+
+const Roles = {
+  admin: "Admin",
+  patient: "Patient",
+  doctor: "Doctor",
+};
 
 const routes = [
   {
@@ -29,52 +37,72 @@ const routes = [
     element: <Register />,
   },
   {
-    path: "/admin",
-    element: <Admin />,
+    element: <PersistLogin />,
     children: [
       {
-        path: "addDoc",
-        element: <AdminAddDoc />,
+        element: <RequireAuth allowedRoles={[Roles.admin]} />,
+        children: [
+          {
+            path: "/admin",
+            element: <Admin />,
+            children: [
+              {
+                path: "addDoc",
+                element: <AdminAddDoc />,
+              },
+              {
+                index: true,
+                element: <AdminDashboard />,
+              },
+            ],
+          },
+        ],
       },
       {
-        index: true,
-        element: <AdminDashboard />,
-      },
-    ],
-  },
-  {
-    path: "/user",
-    element: <User />,
-    children: [
-      {
-        index: true,
-        element: <UserDashboard />,
-      },
-      {
-        path: "appointments",
-        element: <UserAppointment />,
-      },
-      {
-        path: "payments",
-        element: <UserPayments />,
-      },
-    ],
-  },
-  {
-    path: "/doctor",
-    element: <Doctor />,
-    children: [
-      {
-        index: true,
-        element: <DoctorDashboard />,
+        element: <RequireAuth allowedRoles={[Roles.patient]} />,
+        children: [
+          {
+            path: "/user",
+            element: <User />,
+            children: [
+              {
+                index: true,
+                element: <UserDashboard />,
+              },
+              {
+                path: "appointments",
+                element: <UserAppointment />,
+              },
+              {
+                path: "payments",
+                element: <UserPayments />,
+              },
+            ],
+          },
+        ],
       },
       {
-        path: "appointments",
-        element: <DoctorAppointments />,
-      },
-      {
-        path: "prescribe",
-        element: <DoctorPrescribe />, // Have to make the prescribe appear at /doctor/appointments/:id/prescribe
+        element: <RequireAuth allowedRoles={[Roles.doctor]} />,
+        children: [
+          {
+            path: "/doctor",
+            element: <Doctor />,
+            children: [
+              {
+                index: true,
+                element: <DoctorDashboard />,
+              },
+              {
+                path: "appointments",
+                element: <DoctorAppointments />,
+              },
+              {
+                path: "prescribe",
+                element: <DoctorPrescribe />, // Have to make the prescribe appear at /doctor/appointments/:id/prescribe
+              },
+            ],
+          },
+        ],
       },
     ],
   },

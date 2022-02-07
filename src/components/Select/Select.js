@@ -4,6 +4,12 @@ import { Listbox, Transition } from "@headlessui/react";
 import { StyledListBoxButton, Wrapper, MenuWrapper, Error } from "./Styles";
 import { BiErrorCircle } from "react-icons/bi";
 
+const capitalizeWord = (string) =>
+  string
+    .split(" ")
+    .map((word) => word[0].toUpperCase() + word.slice(1))
+    .join(" ");
+
 const Select = forwardRef(
   (
     {
@@ -15,7 +21,7 @@ const Select = forwardRef(
       wrapperClassName,
       btnClassName,
       errMsg,
-      disableFirst = true,
+      disableFirst = false,
     },
     ref
   ) => {
@@ -34,7 +40,7 @@ const Select = forwardRef(
                   open ? "rounded-t-[10px]" : "rounded-[10px]"
                 } ${btnClassName}`}
               >
-                {value || options[0]}
+                {value || capitalizeWord(name)}
                 <RiArrowDropDownLine className="text-4xl" />
               </StyledListBoxButton>
               <MenuWrapper

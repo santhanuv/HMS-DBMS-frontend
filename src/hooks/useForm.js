@@ -45,7 +45,7 @@ const useForm = (initValue = {}, schema) => {
     setFormData((prev) => ({ ...prev, [name]: value ? value : "" }));
   };
 
-  const onSubmit = async (e, callback = () => {}) => {
+  const onSubmit = async (e, callback = async () => {}) => {
     e.preventDefault();
     const errors = await validateFormData(schema, formData);
     setErrors(errors);
@@ -54,8 +54,7 @@ const useForm = (initValue = {}, schema) => {
 
     console.log(formData);
     const data = formData;
-    setFormData(initValue);
-    callback(data);
+    return await callback(data);
   };
 
   const register = (name) => {
