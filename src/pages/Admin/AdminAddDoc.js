@@ -28,8 +28,6 @@ function AdminAddDoc() {
       const { response: roleRes, err: roleErr } = await getAllRoles(axios);
       const { response: dptRes, err: dptErr } = await getAllDepartments(axios);
 
-      console.log(dptRes);
-
       if (roleRes) {
         setStaffRoles(roleRes?.data);
       } else {

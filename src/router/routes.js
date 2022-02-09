@@ -1,5 +1,6 @@
 import { Navigate, Routes, Route } from "react-router-dom";
 import Login from "../pages/Login/Login";
+import Logout from "../pages/Logout/Logout";
 import Register from "../pages/Register/Register";
 import RequireAuth from "../components/RequireAuth";
 import PersistLogin from "../components/PersistLogin";
@@ -25,6 +26,7 @@ const CustomRoutes = () => {
     <Routes>
       <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
       <Route
         path="/confirmation/staff/:token"

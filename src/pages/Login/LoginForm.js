@@ -8,6 +8,7 @@ import Button from "../../components/Button";
 import { createSession } from "../../api/session.api";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
+import Roles from "../../router/allowedRoles";
 
 const initialFormState = {
   email: "",
@@ -16,10 +17,13 @@ const initialFormState = {
 };
 
 function LoginForm({ className, patientSelected }) {
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const from = location?.state?.from?.pathname || "/user";
+
+  console.log(location?.state);
+  const from = location?.state?.from?.pathname;
+  const to = patientSelected ? Roles.patient.path : Roles.doctor.path;
 
   const doAuth = async (data) => {
     const response = await createSession(data);
@@ -29,7 +33,7 @@ function LoginForm({ className, patientSelected }) {
         roles: response?.data?.roles,
       };
       setAuth(authData);
-      navigate(from, { replace: true });
+      navigate(from || to, { replace: true });
       return true;
     } else {
       console.log(response.err);

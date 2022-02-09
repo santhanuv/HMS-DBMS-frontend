@@ -72,22 +72,22 @@ function User() {
   const location = useLocation();
   const [selectedSideBar, setSelectedSideBar] = useState();
 
-  useEffect(() => {
-    const redirect = () => {
-      if (location.pathname === "/user") {
-        if (auth?.roles) {
-          const allowedRoles = Object.values(Roles);
-          const res = allowedRoles.find(
-            (role) => auth.roles.indexOf(role.name) > -1
-          );
-          if (res && res.path) return navigate(res.path, { replace: true });
-        }
-        navigate("/error", { replace: true });
-      }
-    };
+  // useEffect(() => {
+  //   const redirect = () => {
+  //     if (location.pathname === "/user") {
+  //       if (auth?.roles) {
+  //         const allowedRoles = Object.values(Roles);
+  //         const res = allowedRoles.find(
+  //           (role) => auth.roles.indexOf(role.name) > -1
+  //         );
+  //         if (res && res.path) return navigate(res.path, { replace: true });
+  //       }
+  //       navigate("/error", { replace: true });
+  //     }
+  //   };
 
-    redirect();
-  }, []);
+  //   redirect();
+  // }, []);
 
   useEffect(() => {
     const selectSideBarItem = () => {
@@ -122,14 +122,7 @@ function User() {
 
   const handleLogout = async (e) => {
     e.preventDefault();
-
-    const response = await deleteSession();
-    if (response.err) {
-      console.log("Login falied", response.err);
-    } else {
-      console.log("Logout Successful", response.response);
-      navigate("/login", { replace: true });
-    }
+    navigate("/logout", { replace: true });
   };
 
   return (
