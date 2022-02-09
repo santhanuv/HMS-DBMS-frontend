@@ -17,6 +17,8 @@ import {
 
 import User from "../pages/User";
 import Roles from "./allowedRoles";
+import StaffVerification from "../pages/Staff/StaffVerification";
+import StaffRegistration from "../pages/Staff/StaffRegisteration";
 
 const CustomRoutes = () => {
   return (
@@ -24,6 +26,11 @@ const CustomRoutes = () => {
       <Route path="/" element={<Navigate replace to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/confirmation/staff/:token"
+        element={<StaffVerification />}
+      />
+      <Route path="/staffRegistration" element={<StaffRegistration />} />
 
       <Route element={<PersistLogin />}>
         <Route element={<RequireAuth allowedRoles={[Roles.user.name]} />}>

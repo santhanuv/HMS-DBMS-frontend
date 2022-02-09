@@ -42,9 +42,9 @@ const registerationCallback = async (data) => {
 function RegisterForm({ formState, setFormState }) {
   const navigate = useNavigate();
 
-  const [districts, setDistricts] = useState();
-  const [states, setStates] = useState();
-  const [genders, setGenders] = useState();
+  const [districts, setDistricts] = useState([]);
+  const [states, setStates] = useState([]);
+  const [genders, setGenders] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {

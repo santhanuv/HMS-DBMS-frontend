@@ -30,6 +30,10 @@ const useForm = (initValue = {}, schema) => {
   const [formData, setFormData] = useState(initValue);
   const [errors, setErrors] = useState({});
 
+  const resetForm = () => {
+    setFormData(initValue);
+  };
+
   useEffect(() => {
     if (Object.keys(errors).length !== 0) {
       const currentErrors = validateFormDataSync(schema, formData);
@@ -52,7 +56,6 @@ const useForm = (initValue = {}, schema) => {
 
     if (Object.keys(errors).length !== 0) return;
 
-    console.log(formData);
     const data = formData;
     return await callback(data);
   };
@@ -62,7 +65,23 @@ const useForm = (initValue = {}, schema) => {
     return { name, value: formData[name], onChange, errMsg: errors[name] };
   };
 
-  return { register, onSubmit, errors, formData, onChange };
+  const resetField = (name) => {
+    if (Object.keys(initValue).indexOf(name) != -1) {
+      setFormData((prev) => {
+        return { ...prev, [name]: initValue[name] };
+      });
+    }
+  };
+
+  return {
+    register,
+    onSubmit,
+    errors,
+    formData,
+    onChange,
+    resetForm,
+    resetField,
+  };
 };
 
 export default useForm;

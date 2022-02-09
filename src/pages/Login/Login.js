@@ -8,9 +8,14 @@ import Button from "../../components/Button";
 import Link from "../../components/Link";
 import Card from "../../components/Card";
 import mainImage from "../../assets/images/mainImg.svg";
+import { useLocation } from "react-router-dom";
 
 function Login() {
-  const [patientSelected, setPatientSelected] = useState(true);
+  const location = useLocation();
+  const type = location?.state?.type;
+  const [patientSelected, setPatientSelected] = useState(
+    type && type === "staff" ? false : true
+  );
   const selectorBtnInfo = [
     { text: "Patient", id: "selector_btn_0" },
     { text: "Doctor", id: "selector_btn_1" },
