@@ -73,6 +73,10 @@ const useForm = (initValue = {}, schema) => {
     }
   };
 
+  const setField = (name, value) => {
+    setFormData((prev) => ({ ...prev, [name]: value ? value : "" }));
+  };
+
   return {
     register,
     onSubmit,
@@ -81,6 +85,7 @@ const useForm = (initValue = {}, schema) => {
     onChange,
     resetForm,
     resetField,
+    setField,
   };
 };
 

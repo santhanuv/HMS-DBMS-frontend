@@ -22,6 +22,7 @@ const Select = forwardRef(
       btnClassName,
       errMsg,
       disableFirst = false,
+      optionsObj,
     },
     ref
   ) => {
@@ -30,7 +31,14 @@ const Select = forwardRef(
         <Listbox
           value={value}
           name={name}
-          onChange={(value) => onChange({ name, value })}
+          onChange={(value) => {
+            const selectedValue = optionsObj ? value.name : value;
+            onChange({
+              name,
+              value: selectedValue,
+              id: optionsObj ? value.id : null,
+            });
+          }}
         >
           {({ open }) => (
             <>
@@ -57,10 +65,13 @@ const Select = forwardRef(
                   leaveTo="transform scale-95 opacity-0"
                 >
                   <Listbox.Options>
-                    {options.map((itemName, index) => (
+                    {(optionsObj ? optionsObj : options).map((item, index) => (
                       <Listbox.Option
                         key={index}
-                        value={itemName}
+                        id={optionsObj ? item.id : index}
+                        value={
+                          optionsObj ? { id: item.id, name: item.name } : item
+                        }
                         disabled={
                           varient === "form" &&
                           disableFirst &&
@@ -79,7 +90,7 @@ const Select = forwardRef(
                             } ${disabled && "text-disabledGrey"}
                           px-[18px]`}
                           >
-                            {itemName}
+                            {optionsObj ? item.name : item}
                           </div>
                         )}
                       </Listbox.Option>

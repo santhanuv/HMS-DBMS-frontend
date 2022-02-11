@@ -21,7 +21,6 @@ function LoginForm({ className, patientSelected }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location?.state);
   const from = location?.state?.from?.pathname;
   const to = patientSelected ? Roles.patient.path : Roles.doctor.path;
 

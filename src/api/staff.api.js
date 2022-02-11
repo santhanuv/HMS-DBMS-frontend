@@ -42,4 +42,20 @@ const getAllDepartments = async (axios) => {
   }
 };
 
-export { confirmStaff, inviteStaff, getAllDepartments, createStaff };
+const getAllDoctors = async (axios) => {
+  try {
+    if (!axios) throw new Error("No axios given");
+    const response = await axios.get(`${url}/doctors`);
+    return { response };
+  } catch (err) {
+    return { err };
+  }
+};
+
+export {
+  confirmStaff,
+  inviteStaff,
+  getAllDepartments,
+  createStaff,
+  getAllDoctors,
+};

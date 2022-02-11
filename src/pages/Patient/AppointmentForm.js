@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import * as yup from "yup";
 import Select from "../../components/Select";
 import DateFeild from "../../components/TextInput/DateFeild";
@@ -6,25 +6,26 @@ import { addYears } from "date-fns";
 import useForm from "../../hooks/useForm";
 import Button from "../../components/Button";
 import { string } from "yup";
+import { getAllATS } from "../../api/ats.api";
+import { getAllDoctors, getAllDepartments } from "../../api/staff.api";
+import { createAppointment } from "../../api/appointment.api";
+import useAuthAxios from "../../hooks/useAuthAxios";
 
 const appointmentSchema = yup.object().shape({
-  doctorName: yup.string().min(3, "Doctor Name should be atleast 3 characters"),
+  doctorID: yup.number().required("Doctor is required"),
   date: yup
     .date()
     .strict(true)
     .typeError("Date is not valid")
-    .min(new Date(), "Select a date in the future!"),
-  hour: string().required("Hour is required"),
-  minute: string().required("Minute is required"),
-  period: string(),
+    .min(new Date(), "Select a date in the future!")
+    .required("Date is required"),
+  timeSlotID: yup.number().required("Time Slot is required"),
 });
 
 const initialFormState = {
-  doctorName: "",
+  doctorID: "",
   date: "",
-  hour: "",
-  minute: "",
-  period: "",
+  timeSlotID: "",
 };
 
 // Will Change the time selector component with a custom component
@@ -34,24 +35,108 @@ const hourOptions = [...Array(12)].map((_, index) =>
 );
 const minuteOptions = [...Array(6)].map((_, index) => `${index}0`);
 
-function AppointmentForm() {
-  // Fetch doctor names
-  const doctorNames = [
-    "Doctor Name",
-    "Santhanu",
-    "Shefton",
-    "Seira",
-    "Sandhu",
-    "Doctor2",
-  ];
+const formatTimeSlot = (timeSlot) => {
+  const matchPattern = /\d{2}:\d{2}/;
+  const name = `${timeSlot.startTime.match(
+    matchPattern
+  )}-${timeSlot.endTime.match(matchPattern)}`;
+  const id = timeSlot.slotID;
+  return { id, name };
+};
 
-  const { register, onSubmit } = useForm(initialFormState, appointmentSchema);
+function AppointmentForm() {
+  const axios = useAuthAxios();
+
+  const {
+    register,
+    onSubmit,
+    formData,
+    onChange: formOnChange,
+    setField,
+  } = useForm(initialFormState, appointmentSchema);
+
+  const [departments, setDepartments] = useState([]);
+  const [dptDocs, setDptDocs] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { response: doctorRes, err: doctorErr } = await getAllDoctors(
+        axios
+      );
+      const { response: departmentRes, err: departmentErr } =
+        await getAllDepartments(axios);
+      if (doctorRes) {
+        setDptDocs(doctorRes.data);
+      } else {
+        console.log(doctorErr);
+      }
+
+      if (departmentRes) {
+        setDepartments(departmentRes.data);
+      } else {
+        console.log(departmentErr);
+      }
+    };
+
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const docList = dptDocs[formData.department] || [];
+    setDoctors(docList);
+  }, [formData.department, dptDocs]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      if (formData.doctorID && formData.date) {
+        const { response, err } = await getAllATS(axios, {
+          doctor: formData.doctorID,
+          date: formData.date,
+        });
+
+        if (response) {
+          const timeSlots = response.data.map((timeSlot) =>
+            formatTimeSlot(timeSlot)
+          );
+          setTimeSlots(timeSlots);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+    fetch();
+  }, [formData.doctorID, formData.date]);
+
+  const postAppointment = async (data) => {
+    const { response, err } = await createAppointment(axios, data);
+    if (response) {
+      console.log(response.data);
+      console.log(formatTimeSlot(response.data.time));
+    } else {
+      console.log(err);
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={(e) => onSubmit(e, postAppointment)}>
       <Select
-        options={doctorNames}
+        options={departments}
         varient="form"
-        {...register("doctorName")}
+        {...register("department")}
+        btnClassName={`h-[70px]`}
+      />
+      <Select
+        optionsObj={doctors}
+        varient="form"
+        {...{
+          ...register("doctor"),
+          onChange: ({ id, name, value }) => {
+            formOnChange({ name, value });
+            setField("doctorID", id);
+          },
+        }}
         btnClassName={`h-[70px]`}
       />
       <DateFeild
@@ -60,32 +145,18 @@ function AppointmentForm() {
         {...register("date")}
         isTop={false}
       />
-      <div className="flex justify-between gap-[30px]">
-        <Select
-          disableFirst={false}
-          options={hourOptions}
-          varient="form"
-          {...register("hour")}
-          btnClassName={`h-[70px]`}
-          wrapperClassName="w-full"
-        />
-        <Select
-          disableFirst={false}
-          options={minuteOptions}
-          varient="form"
-          {...register("minute")}
-          btnClassName={`h-[70px]`}
-          wrapperClassName="w-full"
-        />
-        <Select
-          disableFirst={false}
-          varient="form"
-          options={["AM", "PM"]}
-          {...register("period")}
-          btnClassName={`h-[70px]`}
-          wrapperClassName="w-full"
-        />
-      </div>
+      <Select
+        optionsObj={timeSlots}
+        varient="form"
+        {...{
+          ...register("timeSlot"),
+          onChange: ({ id, name, value }) => {
+            formOnChange({ name, value });
+            setField("timeSlotID", id);
+          },
+        }}
+        btnClassName={`h-[70px]`}
+      />
       <Button
         text="ADD"
         id="add_btn"
