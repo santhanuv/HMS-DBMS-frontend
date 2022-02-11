@@ -31,7 +31,6 @@ const initialFormState = {
 const registerationCallback = async (data) => {
   const registerRes = await registerPatient(data);
   if (registerRes.data) {
-    console.log(registerRes.data);
     return true;
   } else {
     console.log("Error", registerRes.err);
