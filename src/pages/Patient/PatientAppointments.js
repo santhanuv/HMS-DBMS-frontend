@@ -215,7 +215,7 @@ function PatientAppointments() {
               <h1 className="font-montserrat font-bold text-3xl mb-[30px] text-primaryGrey">
                 Add Appointment
               </h1>
-              <AppointmentForm />
+              <AppointmentForm setAddCardVisible={setAddCardVisible} />
             </div>
           </Card>
         </div>

@@ -1,14 +1,14 @@
 import { sessionAxios as axios } from "../config/axios";
 const url = "/sessions";
 
-const createSession = async ({ email, password }) => {
+const createSession = async ({ email, password, role }) => {
   if (!email || !password)
     throw new Error("Provide a valid username and password");
 
   try {
     const response = await axios.post(
       url,
-      { email, password },
+      { email, password, role },
       {
         headers: {
           "Content-Type": "application/json",

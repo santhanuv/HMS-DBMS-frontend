@@ -44,7 +44,7 @@ const formatTimeSlot = (timeSlot) => {
   return { id, name };
 };
 
-function AppointmentForm() {
+function AppointmentForm({ setAddCardVisible }) {
   const axios = useAuthAxios();
 
   const {
@@ -114,6 +114,7 @@ function AppointmentForm() {
     if (response) {
       console.log(response.data);
       console.log(formatTimeSlot(response.data.time));
+      setAddCardVisible(false);
     } else {
       console.log(err);
     }

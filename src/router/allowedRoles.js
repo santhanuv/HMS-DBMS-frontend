@@ -14,6 +14,9 @@ const Roles = {
   user: {
     name: "User",
   },
+  staff: {
+    name: "Staff",
+  },
 };
 
 export default Roles;

@@ -40,7 +40,7 @@ function LoginForm({ className, patientSelected }) {
     }
   };
 
-  const { register, onSubmit, formData } = useForm(
+  const { register, onSubmit, formData, setField } = useForm(
     initialFormState,
     loginSchema
   );
@@ -49,7 +49,10 @@ function LoginForm({ className, patientSelected }) {
     <form
       className={`${className} flex flex-col gap-[30px]`}
       onSubmit={(e) => {
-        formData.role = patientSelected ? "patient" : "staff";
+        setField(
+          "role",
+          patientSelected ? Roles.patient.name : Roles.doctor.name
+        );
         onSubmit(e, doAuth);
       }}
     >
