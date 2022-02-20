@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import loginSchema from "./loginSchema";
 import TextField from "../../components/TextInput";
@@ -30,6 +30,8 @@ function LoginForm({ className, patientSelected }) {
       const authData = {
         accessToken: response?.data?.accessToken,
         roles: response?.data?.roles,
+        firstName: response?.data?.firstName,
+        lastName: response?.data?.lastName,
       };
       setAuth(authData);
       navigate(from || to, { replace: true });
@@ -45,14 +47,14 @@ function LoginForm({ className, patientSelected }) {
     loginSchema
   );
 
+  useEffect(() => {
+    setField("role", patientSelected ? Roles.patient.name : Roles.doctor.name);
+  }, []);
+
   return (
     <form
       className={`${className} flex flex-col gap-[30px]`}
       onSubmit={(e) => {
-        setField(
-          "role",
-          patientSelected ? Roles.patient.name : Roles.doctor.name
-        );
         onSubmit(e, doAuth);
       }}
     >

@@ -132,8 +132,8 @@ function User() {
       </div>
       <div className={` ml-[150px] w-9/12 relative`}>
         <span className="absolute z-10 top-[50px] right-[0px] flex gap-[10px] justify-center items-center">
-          <Avatar name="Santhanu" />
-          <Menu name="Santhanu">
+          <Avatar name={auth.firstName || "name"} />
+          <Menu name={auth.firstName || "name"}>
             <ItemButton>
               <span>
                 <AiOutlineUser className="text-2xl" />
