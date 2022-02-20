@@ -6,62 +6,78 @@ import { FaEdit, FaWindowClose, FaAngleRight } from "react-icons/fa";
 import { BsCalendarPlusFill } from "react-icons/bs";
 import Card from "../../components/Card";
 import Wrapper from "../../components/Wrapper/Wrapper";
+import Badge from "../../components/Badge";
 import DatePicker from "../../components/DatePicker";
 import CardSlider from "../../components/CardSlider";
 import CardButton from "../../components/CardButton";
 import AppointmentForm from "./AppointmentForm";
-
-// Creates mock data
-const remove = () => {
-  const list = [];
-  for (let i = 0; i < 10; i++) {
-    list.push({
-      id: i,
-      doc_name: i === 4 ? "Naruto" : "Santhanu V",
-      date: "25/01/2026",
-      time: "10:00-11:00",
-      price: "2500",
-      btns: (
-        <div className="flex w-full gap-5">
-          <Button
-            id={`edit_${i}`}
-            icon={<FaEdit />}
-            isCustom={true}
-            classNames="text-3xl text-primaryBlue"
-          />
-          <Button
-            id={`del_${i}`}
-            icon={<FaWindowClose />}
-            isCustom={true}
-            classNames="text-3xl text-primaryBlue"
-          />
-        </div>
-      ),
-    });
-  }
-  return list;
-};
-
-// const data = React.useMemo(() => [
-//   {
-//     id: 1,
-//     doc_name: "Santhanu V",
-//     date: "25/01/2026",
-//     time: "10:00-11:00",
-//     price: "2500",
-//     btns: (
-//       <div className="flex">
-//         <Button id={`edit_${i}`} icon={<FaEdit />} />
-//         <Button id={`del_${i}`} icon={<FaWindowClose />} />
-//       </div>
-//     ),
-//   },
-// ]);
+import {
+  getAllAppointments,
+  deleteAppointment,
+} from "../../api/appointment.api";
+import useAuthAxios from "../../hooks/useAuthAxios";
 
 function PatientAppointments() {
   const [addCardVisible, setAddCardVisible] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState(new Date());
+  const [appointmentData, setAppointmentData] = useState();
+  const axios = useAuthAxios();
   const addCardRef = useRef(null);
+
+  const deleteAppointmentHandler = async (appointmentID) => {
+    const { response, err } = await deleteAppointment(axios, appointmentID);
+    if (response) {
+      const newData = appointmentData.filter((appointment) => {
+        return appointment.appointmentID !== parseInt(appointmentID);
+      });
+      setAppointmentData(newData);
+    } else {
+      console.log(err);
+    }
+  };
+
+  const formatAppointments = (data) => {
+    const list = data.map((appointment) => {
+      const formated = {
+        doctor: `${appointment.doctor.firstName} ${appointment.doctor.lastName}`,
+        date: appointment.date,
+        time: `${appointment.timeSlot.startTime}-${appointment.timeSlot.endTime}`,
+        price: appointment.charge,
+        isCompleted: appointment.isCompleted ? (
+          <Badge varient={"success"}>Completed</Badge>
+        ) : (
+          <Badge varient={"pending"}>Pending</Badge>
+        ),
+        btns: (
+          <div className="flex w-full gap-5">
+            {!appointment.isCompleted && false && (
+              <Button
+                id={`edit_${appointment.appointmentID}`}
+                icon={<FaEdit />}
+                isCustom={true}
+                classNames="text-3xl text-primaryBlue"
+              />
+            )}
+            <Button
+              id={`del_${appointment.appointmentID}`}
+              onClick={async (e) => {
+                const idStr = e.currentTarget.id;
+                if (idStr) {
+                  const id = idStr.split("del_")[1];
+                  await deleteAppointmentHandler(id);
+                }
+              }}
+              icon={<FaWindowClose />}
+              isCustom={true}
+              classNames="text-3xl text-primaryBlue"
+            />
+          </div>
+        ),
+      };
+      return formated;
+    });
+    return list;
+  };
 
   const handleExitCard = (e) => {
     if (
@@ -79,17 +95,35 @@ function PatientAppointments() {
     setAddCardVisible(true);
   };
 
+  const addAppointmentCallback = (data) => {
+    setAppointmentData((prevData) => {
+      return [...prevData, data];
+    });
+    setAddCardVisible(false);
+  };
+
   useEffect(() => document.addEventListener("click", handleExitCard, true));
 
-  const data = React.useMemo(() => remove());
+  useEffect(() => {
+    const fetch = async () => {
+      const { response, err } = await getAllAppointments(axios);
+      if (response) {
+        setAppointmentData(response.data);
+      } else {
+        console.log("\n\nError: ", err);
+      }
+    };
+
+    fetch();
+  }, []);
+
+  const data = React.useMemo(() =>
+    formatAppointments(appointmentData ? appointmentData : [])
+  );
   const columns = React.useMemo(() => [
     {
-      Header: "Id",
-      accessor: "id",
-    },
-    {
       Header: "Doctor",
-      accessor: "doc_name",
+      accessor: "doctor",
     },
     {
       Header: "Date",
@@ -104,7 +138,11 @@ function PatientAppointments() {
       accessor: "price",
     },
     {
-      Header: "",
+      Header: "Status",
+      accessor: "isCompleted",
+    },
+    {
+      Header: "Actions",
       accessor: "btns",
     },
   ]);
@@ -153,7 +191,7 @@ function PatientAppointments() {
         wrapperClassNames="mt-6"
         onClick={handleOpenCard}
       />
-      {
+      {/* {
         <Card classNames="p-[20px] flex justify-between mt-[50px] h-[600px]">
           <Card classNames="p-[40px] basis-1/2 justify-center items-center">
             <DatePicker
@@ -188,7 +226,7 @@ function PatientAppointments() {
             </CardSlider>
           </div>
         </Card>
-      }
+      } */}
       {
         <Card classNames="my-[40px] min-h-[600px]">
           <Table columns={columns} data={data} />
@@ -215,7 +253,7 @@ function PatientAppointments() {
               <h1 className="font-montserrat font-bold text-3xl mb-[30px] text-primaryGrey">
                 Add Appointment
               </h1>
-              <AppointmentForm setAddCardVisible={setAddCardVisible} />
+              <AppointmentForm callback={addAppointmentCallback} />
             </div>
           </Card>
         </div>

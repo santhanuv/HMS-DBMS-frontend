@@ -10,4 +10,24 @@ const createAppointment = async (axios, data) => {
   }
 };
 
-export { createAppointment };
+const getAllAppointments = async (axios) => {
+  try {
+    if (!axios) throw new Error("No axios instance");
+    const response = await axios.get(url);
+    return { response };
+  } catch (err) {
+    return { err };
+  }
+};
+
+const deleteAppointment = async (axios, appointmentID) => {
+  try {
+    if (!axios) throw new Error("No axios instance");
+    const response = await axios.delete(`${url}/${appointmentID}`);
+    return { response };
+  } catch (err) {
+    return { err };
+  }
+};
+
+export { createAppointment, getAllAppointments, deleteAppointment };

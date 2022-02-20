@@ -44,7 +44,7 @@ const formatTimeSlot = (timeSlot) => {
   return { id, name };
 };
 
-function AppointmentForm({ setAddCardVisible }) {
+function AppointmentForm({ callback }) {
   const axios = useAuthAxios();
 
   const {
@@ -65,19 +65,21 @@ function AppointmentForm({ setAddCardVisible }) {
       const { response: doctorRes, err: doctorErr } = await getAllDoctors(
         axios
       );
-      const { response: departmentRes, err: departmentErr } =
-        await getAllDepartments(axios);
+      // const { response: departmentRes, err: departmentErr } =
+      //   await getAllDepartments(axios);
       if (doctorRes) {
         setDptDocs(doctorRes.data);
+        const departments = Object.keys(doctorRes?.data);
+        setDepartments(departments);
       } else {
         console.log(doctorErr);
       }
 
-      if (departmentRes) {
-        setDepartments(departmentRes.data);
-      } else {
-        console.log(departmentErr);
-      }
+      // if (departmentRes) {
+      //   setDepartments(departmentRes.data);
+      // } else {
+      //   console.log(departmentErr);
+      // }
     };
 
     fetch();
@@ -112,9 +114,8 @@ function AppointmentForm({ setAddCardVisible }) {
   const postAppointment = async (data) => {
     const { response, err } = await createAppointment(axios, data);
     if (response) {
-      console.log(response.data);
-      console.log(formatTimeSlot(response.data.time));
-      setAddCardVisible(false);
+      const { department: omit, ...newData } = response.data;
+      callback(newData);
     } else {
       console.log(err);
     }

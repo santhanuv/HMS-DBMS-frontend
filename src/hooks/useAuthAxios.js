@@ -22,8 +22,6 @@ const useAuthAxios = () => {
       (response) => response,
       async (err) => {
         const prevReq = err?.config;
-        prevReq.sent = false;
-        console.log(err?.response?.status);
         if (err?.response?.status === 401 && !prevReq.sent) {
           prevReq.sent = true;
           const newAccessToken = await refresh();
