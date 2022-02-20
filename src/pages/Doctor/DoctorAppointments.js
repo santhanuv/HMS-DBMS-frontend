@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Badge from "../../components/Badge";
 import MainHeading from "../../components/MainHeading";
 import Wrapper from "../../components/Wrapper/Wrapper";
@@ -6,6 +6,12 @@ import { FaAngleRight } from "react-icons/fa";
 import Button from "../../components/Button";
 import Card from "../../components/Card";
 import Table from "../../components/Table";
+import {
+  getAllAppointments,
+  getLatestAppointments,
+} from "../../api/appointment.api";
+import useAuthAxios from "../../hooks/useAuthAxios";
+import formatTime from "../../utils/formatTime";
 
 // Creates mock data
 const remove = () => {
@@ -37,16 +43,59 @@ const remove = () => {
 };
 
 function DoctorAppointments() {
-  const data = remove();
+  const [appointmentData, setAppointmentData] = useState();
+  const axios = useAuthAxios();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const { response, err } = await getAllAppointments(axios, "Doctor");
+      if (response) {
+        setAppointmentData(response.data);
+      } else {
+        console.log(err);
+      }
+    };
+
+    fetch();
+  }, []);
+
+  const formatAppointments = (data) => {
+    const list = data.map((appointment) => {
+      const formated = {
+        patient: `${appointment.patient.firstName} ${appointment.patient.lastName}`,
+        date: appointment.date,
+        time: `${formatTime(appointment.timeSlot.startTime)}-${formatTime(
+          appointment.timeSlot.endTime
+        )}`,
+        isCompleted: appointment.isCompleted ? (
+          <Badge varient={"success"}>Completed</Badge>
+        ) : (
+          <Badge varient={"pending"}>Pending</Badge>
+        ),
+        btns: (
+          <div className="flex w-full gap-5">
+            <Button
+              id={`del_${appointment.appointmentID}`}
+              icon={<FaAngleRight />}
+              isCustom={true}
+              classNames="text-3xl text-primaryBlue"
+            />
+          </div>
+        ),
+      };
+      return formated;
+    });
+    return list;
+  };
+
+  const data = React.useMemo(() =>
+    formatAppointments(appointmentData ? appointmentData : [])
+  );
 
   const columns = React.useMemo(() => [
     {
-      Header: "Id",
-      accessor: "id",
-    },
-    {
       Header: "Patient",
-      accessor: "pat_name",
+      accessor: "patient",
     },
     {
       Header: "Date",
@@ -58,10 +107,10 @@ function DoctorAppointments() {
     },
     {
       Header: "Status",
-      accessor: "status",
+      accessor: "isCompleted",
     },
     {
-      Header: "",
+      Header: "Actions",
       accessor: "btns",
     },
   ]);

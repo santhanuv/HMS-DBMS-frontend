@@ -16,6 +16,7 @@ import {
   deleteAppointment,
 } from "../../api/appointment.api";
 import useAuthAxios from "../../hooks/useAuthAxios";
+import formatTime from "../../utils/formatTime";
 
 function PatientAppointments() {
   const [addCardVisible, setAddCardVisible] = useState(false);
@@ -41,7 +42,9 @@ function PatientAppointments() {
       const formated = {
         doctor: `${appointment.doctor.firstName} ${appointment.doctor.lastName}`,
         date: appointment.date,
-        time: `${appointment.timeSlot.startTime}-${appointment.timeSlot.endTime}`,
+        time: `${formatTime(appointment.timeSlot.startTime)}-${formatTime(
+          appointment.timeSlot.endTime
+        )}`,
         price: appointment.charge,
         isCompleted: appointment.isCompleted ? (
           <Badge varient={"success"}>Completed</Badge>
@@ -106,7 +109,7 @@ function PatientAppointments() {
 
   useEffect(() => {
     const fetch = async () => {
-      const { response, err } = await getAllAppointments(axios);
+      const { response, err } = await getAllAppointments(axios, "Patient");
       if (response) {
         setAppointmentData(response.data);
       } else {

@@ -18,7 +18,7 @@ function Login() {
   );
   const selectorBtnInfo = [
     { text: "Patient", id: "selector_btn_0" },
-    { text: "Doctor", id: "selector_btn_1" },
+    { text: "Staff", id: "selector_btn_1" },
   ];
 
   const handleSlectorClick = (e) => {
