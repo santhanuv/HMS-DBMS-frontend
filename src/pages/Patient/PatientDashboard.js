@@ -74,14 +74,14 @@ function PatientDashboard() {
   return (
     <Wrapper>
       <MainHeading classNames="text-primaryGrey mb-5">Dashboard</MainHeading>
-      <div className="grid grid-cols-2 gap-[25px]">
-        <div className="aspect-square width-[50px]">
+      <div className="grid grid-cols-2 gap-x-[25px] gap-y-[75px]">
+        <div className="h-[500px] w-full">
           <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Medications
           </h1>
           <EmptyCard>No Medications</EmptyCard>
         </div>
-        <div className="aspect-square width-[50px]">
+        <div className="h-[500px] w-full">
           <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Reports
           </h1>
@@ -90,15 +90,15 @@ function PatientDashboard() {
               <CardButton
                 key={index}
                 text={report.text}
-                icon={<BsFileMedicalFill className="text-5xl" />}
-                btnIcon={<BsFileArrowDownFill className="text-5xl" />}
+                icon={<BsFileMedicalFill className="text-4xl" />}
+                btnIcon={<BsFileArrowDownFill className="text-4xl" />}
                 onClick={reportCardClickHandler}
                 id={report.id}
               />
             ))}
           </CardSlider>
         </div>
-        <div className="aspect-square width-[50px]">
+        <div className="h-[500px] w-full">
           <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Recent Bills
           </h1>
@@ -109,7 +109,7 @@ function PatientDashboard() {
             })}
           </CardSlider>
         </div>
-        <div className="aspect-square width-[50px]">
+        <div className="h-[500px] w-full">
           <h1 className="text-xl font-montserrat text-primaryGrey font-semibold my-[20px]">
             Current Rooms
           </h1>
