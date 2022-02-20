@@ -49,7 +49,7 @@ function LoginForm({ className, patientSelected }) {
 
   useEffect(() => {
     setField("role", patientSelected ? Roles.patient.name : Roles.doctor.name);
-  }, []);
+}, [patientSelected]);
 
   return (
     <form
